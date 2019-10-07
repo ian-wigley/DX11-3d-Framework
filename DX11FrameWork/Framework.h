@@ -7,13 +7,13 @@
 
 // DirectX include files - Make sure that $(DSSDK_DIR)Include is on the VC++ Directories Include path
 #include <d3d11.h>
-#include <d3d11_1.h>
+//#include <d3d11_1.h>
 #include <directxmath.h>
 
 
 // DirectX libraries that are needed - make sure that $(DSSDK_DIR)lib\x86 is on the VC++ Directories Lib path
-#pragma comment(lib, "d3d11.lib")
-//#pragma comment(lib, "d3dx11.lib")
+//#pragma comment(lib, "d3d11.lib")
+////#pragma comment(lib, "d3dx11.lib")
 
 class Tank;
 class SkyDome;
@@ -62,20 +62,20 @@ public:
 
 	SceneGraph* GetSceneGraph(void);
 
-	void SetCamera(Camera* _renderCam);
-	Camera* GetCamera(void)const;
+	//void SetCamera(Camera* _renderCam);
+	//Camera* GetCamera(void)const;
 
-	void SetTank(Tank* tank);
+	//void SetTank(Tank* tank);
 	void SetTerrain(TerrainNode* terrainNode);
 	TerrainNode* GetTerrain(void)const;
-	void GetController(void)const;
+	//void GetController(void)const;
 
 	ID3D11DepthStencilView* GetStencilBuffer(void)const;
 
 
 
 	//	void SetObjects(CameraRender* camRender, Tank* tank, SkyDome* skyDome);
-	void SetObjects(Camera* camRender, Tank* tank, SkyDome* skyDome);
+	// void SetObjects(Camera* camRender, Tank* tank, SkyDome* skyDome);
 	//	void SetObjects(CameraRender* camRender, Tank* tank, SkyDome* skyDome, FrameWorkResourceManager* frameResourcesManager);
 	void SetObjects(Camera* camera, Tank* tank, SkyDome* skyDome, FrameWorkResourceManager* frameResourcesManager);
 
@@ -85,7 +85,8 @@ protected:
 
 
 private:
-
+	int _screenWidth;
+	int _screenHeight;
 	int _oldMouseX;
 	int _oldMouseY;
 	int _mouseX;
@@ -93,20 +94,20 @@ private:
 
 	bool _quit;
 
-	ID3D11Texture2D * depthBuffer;
-	ID3D11Device *           device;
-	ID3D11DeviceContext *    deviceContext;
-	IDXGISwapChain *	     swapChain;
-	ID3D11RenderTargetView * renderTarget;
-	ID3D11DepthStencilView * zBuffer;
+	//ID3D11Texture2D * depthBuffer;
+	//ID3D11Device *           device;
+	//ID3D11DeviceContext *    deviceContext;
+	//IDXGISwapChain *	     swapChain;
+	//ID3D11RenderTargetView * renderTarget;
+	//ID3D11DepthStencilView * zBuffer;
 
 	MSG msg;
 	HWND _hWnd;
 	SceneGraph* _scene;
 
-	void SetupMatrices(void);
+	//void SetupMatrices(void);
 
-	GamePadController* _controller;
+	//GamePadController* _controller;
 	Camera* _renderCamera;
 	SkyDome* _skyDome;
 	Tank* _tank;

@@ -43,15 +43,15 @@ SceneGraph::~SceneGraph(void)
 //-----------------------------------------------------------------------------
 HRESULT SceneGraph::Render(void)
 {
-//	if( NULL == _pd3dDevice )
+////	if( NULL == _pd3dDevice )
 	if( NULL == _device )
 	{
 		return E_FAIL;
 	}
 
 	// Clear the screen to black
-//	float clearColor[4] = {0.0f, 0.0f, 0.0f, 1.0f};
-//	_deviceContext->ClearRenderTargetView(_renderTarget, clearColor);
+	float clearColor[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+	_deviceContext->ClearRenderTargetView(_renderTarget, clearColor);
 
 	// Any rendering code goes here
 
@@ -60,9 +60,21 @@ HRESULT SceneGraph::Render(void)
 
 	for (unsigned int i = 0; i < _nodes.size(); i++)
 	{
+		//_nodes[0]->Update();
+		//_nodes[1]->Update();
+		//_nodes[2]->Update();
+
+		//// 0 -> Terrain
+		//_nodes[0]->Render();
+		//// 1 -> Tank
+		//_nodes[1]->Render();
+		//// 2 -> Cube
+		//_nodes[2]->Render();
+
+
 		_nodes[i]->Update();
 		_nodes[i]->Render();
-		/*
+
 		if(_nodes[i]->ReturnName() == L"boundingBox")
 		{
 			if (_collision1 == NULL)
@@ -73,19 +85,19 @@ HRESULT SceneGraph::Render(void)
 			{
 				_collision2 = _nodes[i];
 
-				// Check to see if the tank is colliding with the objects
-				if (_collision1->IsIntersecting(_collision2))
-				{
-					XMFLOAT3 _direction = XMFLOAT3(0.0f, 0.0f, 5.0f);
-					if (_collision1->CheckDirectionZ())
-					{
-						_nodes[4]->SetPosition(_direction * -1);
-					}
-					else
-					{
-						_nodes[4]->SetPosition(_direction);
-					}
-				}
+				//// Check to see if the tank is colliding with the objects
+				//if (_collision1->IsIntersecting(_collision2))
+				//{
+				//	XMFLOAT3 _direction = XMFLOAT3(0.0f, 0.0f, 5.0f);
+				//	if (_collision1->CheckDirectionZ())
+				//	{
+				//		_nodes[4]->SetPosition(_direction * -1);
+				//	}
+				//	else
+				//	{
+				//		_nodes[4]->SetPosition(_direction);
+				//	}
+				//}
 			}
 		}
 		else if(_nodes[i]->ReturnName() == L"boundingSphere")
@@ -101,15 +113,15 @@ HRESULT SceneGraph::Render(void)
 		{
 			RemoveNode(i);
 		}
-		*/
+		
 	}
 
-	_camera->Update();
-//	_camera->Render();
+//	_camera->Update();
+////	_camera->Render();
 
 
 	// Show the back buffer in the window
-//	_swapChain->Present(0, 0);
+	_swapChain->Present(0, 0);
 
 
 

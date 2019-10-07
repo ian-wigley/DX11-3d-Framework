@@ -15,11 +15,11 @@ Framework* _frame =  NULL;
 FrameWorkTest* _frameWorkTest;
 FrameWorkResourceManager* _frameWorkResourceManager = NULL;
 
-//ID3D11Device *           device;
-//ID3D11DeviceContext *    deviceContext;
-//IDXGISwapChain *	     swapChain;
-//ID3D11RenderTargetView * renderTarget;
-//ID3D11DepthStencilView * zBuffer;
+ID3D11Device *           device;
+ID3D11DeviceContext *    deviceContext;
+IDXGISwapChain *	     swapChain;
+ID3D11RenderTargetView * renderTarget;
+ID3D11DepthStencilView * zBuffer;
 
 //-----------------------------------------------------------------------------
 // Name: Framework()
@@ -35,7 +35,7 @@ Framework::Framework(void)
 //-----------------------------------------------------------------------------
 Framework::~Framework(void)
 {
-	_frameWorkResourceManager->Shutdown();
+//	_frameWorkResourceManager->Shutdown();
 	Shutdown();
 }
 
@@ -47,14 +47,17 @@ Framework::Framework(HINSTANCE hInstance)
 {
 
 	// Direct3D interfaces used
-	device = NULL;
-	deviceContext = NULL;
-	swapChain = NULL;
-	renderTarget = NULL;
-	zBuffer = NULL;
+	//device = NULL;
+	//deviceContext = NULL;
+	//swapChain = NULL;
+	//renderTarget = NULL;
+	//zBuffer = NULL;
 
 	// App finished ?
 	_quit = false;
+
+	_screenWidth = 1024;
+	_screenHeight = 800;
 
 
 	_oldMouseX = 0;
@@ -68,9 +71,9 @@ Framework::Framework(HINSTANCE hInstance)
 	InitialiseDirect3D(_hWnd);
 //	InitD3D(_hWnd);
 	_frame = (this);
-	_controller = new GamePadController();
+//	_controller = new GamePadController();
 	// Create Scenegraph
-//	_scene = new SceneGraph(_pd3dDevice);
+////	_scene = new SceneGraph(_pd3dDevice);
 	_scene = new SceneGraph(device, deviceContext, swapChain, renderTarget);
 }
 
@@ -100,7 +103,8 @@ bool Framework::Initialise(HINSTANCE hInstance)
 	}
 
 	// Create the application's window
-	_hWnd = CreateWindow(L"D3DWndClassName", L"Framework", WS_OVERLAPPEDWINDOW, 100, 100, 1024 ,800, 0, 0, wc.hInstance, 0);
+	//_hWnd = CreateWindow(L"D3DWndClassName", L"Framework", WS_OVERLAPPEDWINDOW, 100, 100, 1024 ,800, 0, 0, wc.hInstance, 0);
+	_hWnd = CreateWindow(L"D3DWndClassName", L"Framework", WS_OVERLAPPEDWINDOW, 100, 100, _screenWidth, _screenHeight, 0, 0, wc.hInstance, 0);
 
 	if(!_hWnd)
 	{
@@ -145,7 +149,7 @@ int Framework::Run(void)
 	}
 
 	msg.message = WM_NULL;
-	while(msg.message != WM_QUIT)
+	while(msg.message != WM_QUIT && GetAsyncKeyState(VK_ESCAPE) == 0)
 	{
 		if(PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
 		{
@@ -265,7 +269,8 @@ bool Framework::InitialiseDirect3D(HWND hWnd)
 													0, 
 													featureLevels, 
 													totalFeatureLevels,
-													D3D11_SDK_VERSION, 
+													D3D11_SDK_VERSION,
+													//D3D11_CREATE_DEVICE_DEBUG,
 													&swapChainDesc, &swapChain,
 													&device, 
 													0, 
@@ -441,19 +446,19 @@ VOID Framework::Shutdown()
 //-----------------------------------------------------------------------------
 VOID Framework::Render()
 {
-/*
-	// Clear the screen to black
-	float clearColor[4] = {0.0f, 0.0f, 0.0f, 1.0f};
-	deviceContext->ClearRenderTargetView(renderTarget, clearColor);
-
-	// Clear the depth buffer
-	deviceContext->ClearDepthStencilView(zBuffer, D3D11_CLEAR_DEPTH, 1.0f, 0);
-*/
+///*
+//	// Clear the screen to black
+//	float clearColor[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+//	deviceContext->ClearRenderTargetView(renderTarget, clearColor);
+//
+//	// Clear the depth buffer
+//	deviceContext->ClearDepthStencilView(zBuffer, D3D11_CLEAR_DEPTH, 1.0f, 0);
+//*/
 	_scene->Render();
-/*
-	// Show the back buffer in the window
-	swapChain->Present(0, 0);
-*/
+///*
+//	// Show the back buffer in the window
+//	swapChain->Present(0, 0);
+//*/
 }
 
 //-----------------------------------------------------------------------------
@@ -478,7 +483,7 @@ LRESULT CALLBACK Framework::windPROC(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 //-----------------------------------------------------------------------------
 LRESULT Framework::MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
-	float _amountOfMovement = 0.5f;
+	float _amountOfMovement = 2.5f;
 	float _rotationAmount = 0.015f;
 	switch( msg )
 	{
@@ -541,12 +546,12 @@ LRESULT Framework::MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 
 			//To move camera to the left
 		case VK_LEFT:
-			_renderCamera->MoveRight(_amountOfMovement * -1);
+//			_renderCamera->MoveRight(_amountOfMovement * -1);
 			break;
 
 			//To move camera to the right
 		case VK_RIGHT:
-			_renderCamera->MoveRight(_amountOfMovement);
+//			_renderCamera->MoveRight(_amountOfMovement);
 			break;
 
 			//To move camera up
@@ -565,46 +570,47 @@ LRESULT Framework::MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 		case '1':
 			//_tank->SetCameraType(false);
 			//_renderCamera->SetCameraType(false);
-			_renderCamera->Pitch(_rotationAmount * 1);
+//			_renderCamera->Pitch(_rotationAmount * 1);
 			break;
 
 			//Change to 3rd person camera
 		case '2':
 			//_tank->SetCameraType(true);
 			//_renderCamera->SetCameraType(true);
-			_renderCamera->Pitch(_rotationAmount * -1);
+//			_renderCamera->Pitch(_rotationAmount * -1);
 			break;
 
 		case '3':
 			//_tank->SetCameraType(false);
 			//_renderCamera->SetCameraType(false);
-			_renderCamera->Roll(_rotationAmount * 1);
+//			_renderCamera->Roll(_rotationAmount * 1);
 			break;
 
 			//Change to 3rd person camera
 		case '4':
 			//_tank->SetCameraType(true);
 			//_renderCamera->SetCameraType(true);
-			_renderCamera->Roll(_rotationAmount * -1);
+//			_renderCamera->Roll(_rotationAmount * -1);
 			break;
 
 		case '5':
 			//_tank->SetCameraType(false);
 			//_renderCamera->SetCameraType(false);
-			_renderCamera->Yaw(_rotationAmount * 1);
+//			_renderCamera->Yaw(_rotationAmount * 1);
 			break;
 
 			//Change to 3rd person camera
 		case '6':
 			//_tank->SetCameraType(true);
 			//_renderCamera->SetCameraType(true);
-			_renderCamera->Yaw(_rotationAmount * -1);
+//			_renderCamera->Yaw(_rotationAmount * -1);
 			break;
 
 
 
 		case VK_ESCAPE:
 				_quit = true;
+				
 			break;
 
 		default:
@@ -686,45 +692,45 @@ void Framework::OnResetDevice(void)
 //-----------------------------------------------------------------------------
 void Framework::Update(void)
 {
-	_controller->ProcessGameController();
-	_scene->Update();
+	//_controller->ProcessGameController();
+	//_scene->Update();
 }
 
 //-----------------------------------------------------------------------------
 // Name: TextDisplay()
 // Desc: Output Text to the screen
 //-----------------------------------------------------------------------------
-void Tank::TextDisplay()
-{
-	std::ostringstream output;
-	output
-		<< "1 : 1st Person Camera" << std::endl
-		<< "2 : 3rd Person Camera" << std::endl
-		<< "Q : Move Forward" << std::endl
-		<< "W : Move Backward" << std::endl
-		<< "A : Look Up" << std::endl
-		<< "S : Look Down" << std::endl
-		<< "Mouse : Rotate Left & Right" << std::endl;
-
-	string _string = output.str().c_str();
-	wstring _wideString;
-
-	_wideString.assign(_string.begin(), _string.end());
-
-	LPCWSTR _textString = _wideString.c_str();
-
-	RECT R = {5, 5, 0, 0};
-//	mFont->DrawText(0, _textString, -1, &R, DT_NOCLIP, D3DCOLOR_XRGB(0,0,0));
-}
+//void Tank::TextDisplay()
+//{
+//	//std::ostringstream output;
+//	//output
+//	//	<< "1 : 1st Person Camera" << std::endl
+//	//	<< "2 : 3rd Person Camera" << std::endl
+//	//	<< "Q : Move Forward" << std::endl
+//	//	<< "W : Move Backward" << std::endl
+//	//	<< "A : Look Up" << std::endl
+//	//	<< "S : Look Down" << std::endl
+//	//	<< "Mouse : Rotate Left & Right" << std::endl;
+//
+//	//string _string = output.str().c_str();
+//	//wstring _wideString;
+//
+//	//_wideString.assign(_string.begin(), _string.end());
+//
+//	//LPCWSTR _textString = _wideString.c_str();
+//
+//	//RECT R = {5, 5, 0, 0};
+////	mFont->DrawText(0, _textString, -1, &R, DT_NOCLIP, D3DCOLOR_XRGB(0,0,0));
+//}
 
 //-----------------------------------------------------------------------------
 // Name: SetupMatrices()
 // Desc: Set up Matrices
 //-----------------------------------------------------------------------------
-void Framework::SetupMatrices(void)
-{
-}
-
+//void Framework::SetupMatrices(void)
+//{
+//}
+//
 //Accessors & Mutators
 ID3D11Device* Framework::GetDirectDevice(void)
 {
@@ -758,26 +764,26 @@ HWND Framework::GetHandle(void)
 	return _hWnd;
 }
 
-//void Framework::SetCamera(CameraRender* renderCam)
-void Framework::SetCamera(Camera* renderCam)
-{
-	_renderCamera = renderCam;
+////void Framework::SetCamera(CameraRender* renderCam)
+//void Framework::SetCamera(Camera* renderCam)
+//{
+//	_renderCamera = renderCam;
+//
+//	// Make the camera accessible to the controller
+//	_controller->SetCamera(_renderCamera);
+//}
 
-	// Make the camera accessible to the controller
-	_controller->SetCamera(_renderCamera);
-}
 
+//void Framework::SetTank(Tank* tank)
+//{
+//	_tank = tank;
+//}
 
-void Framework::SetTank(Tank* tank)
-{
-	_tank = tank;
-}
-
-//CameraRender* Framework::GetCamera(void)const
-Camera* Framework::GetCamera(void)const
-{
-	return _renderCamera;
-}
+////CameraRender* Framework::GetCamera(void)const
+//Camera* Framework::GetCamera(void)const
+//{
+//	return _renderCamera;
+//}
 
 
 void Framework::SetTerrain(TerrainNode* terrainNode)
@@ -790,11 +796,11 @@ TerrainNode* Framework::GetTerrain(void)const
 	return _terrain;
 }
 
-void Framework::GetController(void)const
-{
-	_controller->SetTank(_tank);
-	_controller->SetCamera(_renderCamera);
-}
+//void Framework::GetController(void)const
+//{
+//	_controller->SetTank(_tank);
+//	_controller->SetCamera(_renderCamera);
+//}
 
 //void Framework::SetObjects(CameraRender* camRender, Tank* tank, SkyDome* skyDome, FrameWorkResourceManager* frameResourcesManager)
 void Framework::SetObjects(Camera* camera, Tank* tank, SkyDome* skyDome, FrameWorkResourceManager* frameResourcesManager)

@@ -20,7 +20,7 @@ private:
 	void Shutdown(void);
 
 	BoundingShape* _boundingShape;
-	BoundingBlox* _boundingBox;
+//	BoundingBlox* _boundingBox;
 	Framework* _frame;
 	FrameWorkResourceManager* _frameWorkResourcesManager;
 	SceneGraph* _sGraph;

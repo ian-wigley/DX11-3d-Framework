@@ -19,6 +19,7 @@ public:
 	WoodenCrate(wstring name, Framework *_frame, float x, float z,	FrameWorkResourceManager* _frameResourcesManager);
 	HRESULT Render(void);
 	void Shutdown(void);
+	void SetCamera(Camera* _cameraRender);
 
 private:
 	HRESULT InitialiseCrate(void);
@@ -28,4 +29,5 @@ private:
 	BoundingSphere* _boundingSphere;
 	BoundingBlox* _boundingBox;
 	SceneGraph* _sGraph;
+	Camera* _camRender;
 };

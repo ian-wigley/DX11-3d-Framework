@@ -21,7 +21,7 @@ Tree::Tree(wstring name, Framework* frame, float x, float z, FrameWorkResourceMa
 	_frameWorkResourcesManager = _frameResourcesManager;
 //	_mesh = _frameWorkResourcesManager->GetMesh(L"tree.x", true);
 //	_material = _frameWorkResourcesManager->GetMaterial(L"Tree.x");
-	_numberOfMaterials = _frameWorkResourcesManager->GetNumberOfMatrials();
+	_numberOfMaterials = _frameWorkResourcesManager->GetNumberOfMaterials();
 	_delete = false;
 	_x = x;
 	_z = z;

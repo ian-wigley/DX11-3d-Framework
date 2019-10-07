@@ -3,12 +3,12 @@
 
 // DirectX include files - Make sure that $(DSSDK_DIR)Include is on the VC++ Directories Include path
 #include <d3d11.h>
-#include <d3d11_1.h>
+//#include <d3d11_1.h>
 #include <directxmath.h>
 
 // DirectX libraries that are needed - make sure that $(DSSDK_DIR)lib\x86 is on the VC++ Directories Lib path
-#pragma comment(lib, "d3d11.lib")
-#pragma comment(lib, "D3dcompiler.lib")
+//#pragma comment(lib, "d3d11.lib")
+//#pragma comment(lib, "D3dcompiler.lib")
 
 using namespace DirectX;
 
@@ -16,6 +16,24 @@ using namespace DirectX;
 using namespace std;
 
 class BoundingShape;
+
+
+// The format of our vertices
+struct VERTEX
+{
+	XMFLOAT3 Position;  // position
+	XMFLOAT3 Normal;    // normal
+	XMFLOAT2 TexCoord;   // Texture UV Coordinates
+};
+
+struct CBUFFER
+{
+	XMMATRIX    CompleteTransformation;
+	XMMATRIX	WorldTransformation;
+	XMVECTOR    LightVector;
+	XMFLOAT4    LightColor;
+	XMFLOAT4    AmbientColor;
+};
 
 class SceneNode
 {
@@ -82,24 +100,44 @@ protected:
 	IDXGISwapChain*	_swapChain;
 	ID3D11RenderTargetView* _renderTarget;
 
-	XMMATRIX _rotationMatrixX;
-	XMMATRIX _rotationMatrixY;
-	XMMATRIX _rotationMatrixZ;
-	
-	XMMATRIX _scalingingMatrix;
-	XMMATRIX _translationMatrix;
-	XMMATRIX _worldMatrix;
-	
-	XMMATRIX _viewMatrix;
+	HRESULT InitialiseGeometry(void);
+	D3D11_BUFFER_DESC bufferDesc;
+	UINT m_numIndices;
+	UINT m_numVertices;// = 24 * 3;
+	VERTEX* m_vertices;
+	DWORD* m_indices;
 
-//	XMVECTOR _up;
-//	XMVECTOR _lookAt;
-//	XMVECTOR _right;
-//	XMVECTOR _position;
+	ID3D11Buffer* vertexBuffer;
+	ID3D11Buffer* indexBuffer;
+	ID3D11Buffer* constantBuffer;
+	D3D11_MAPPED_SUBRESOURCE ms1;
+//	VERTEX1* modelVertices1;
+	ID3D11Device* _pd3dDevice;
+	ID3D11RasterizerState* pRSWireFrame1;
+	ID3D11DepthStencilView*	_zBuffer;
+	ID3D11ShaderResourceView* _texture;
 
-	XMMATRIX yawMatrix;
-	XMMATRIX pitchMatrix;
-	XMMATRIX rollMatrix;
+
+
+//
+//	XMMATRIX _rotationMatrixX;
+//	XMMATRIX _rotationMatrixY;
+//	XMMATRIX _rotationMatrixZ;
+//	
+//	XMMATRIX _scalingingMatrix;
+//	XMMATRIX _translationMatrix;
+//	XMMATRIX _worldMatrix;
+//	
+//	XMMATRIX _viewMatrix;
+//
+////	XMVECTOR _up;
+////	XMVECTOR _lookAt;
+////	XMVECTOR _right;
+////	XMVECTOR _position;
+//
+//	XMMATRIX yawMatrix;
+//	XMMATRIX pitchMatrix;
+//	XMMATRIX rollMatrix;
 
 	float _cameraSpeed;
     float _angle;
@@ -120,6 +158,15 @@ protected:
 	wstring _type;
 
 	DWORD _numberOfMaterials;
+	VERTEX* modelVertices;
+	//unsigned int* modelIndices;
+	vector<UINT> indices;
+
+	XMMATRIX projectionTransformation;
+	XMMATRIX _scalingMatrix;
+	XMMATRIX _worldTransformation;
+	
+
 
 private:
 	SceneNode* _parentNode;			// The parent of the scene node 

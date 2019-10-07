@@ -6,6 +6,58 @@
 
 #include "Tank.h"
 
+
+VERTEX cubeVertices1[] =
+{
+	{XMFLOAT3(-1.0f, -1.0f, 1.0f),  XMFLOAT3(0.0f, 0.0f, 1.0f),  XMFLOAT2(0.0f, 0.0f)},    // side 1
+	{XMFLOAT3(1.0f, -1.0f, 1.0f),   XMFLOAT3(0.0f, 0.0f, 1.0f),  XMFLOAT2(0.0f, 1.0f)},
+	{XMFLOAT3(-1.0f, 1.0f, 1.0f),   XMFLOAT3(0.0f, 0.0f, 1.0f),  XMFLOAT2(1.0f, 0.0f)},
+	{XMFLOAT3(1.0f, 1.0f, 1.0f),    XMFLOAT3(0.0f, 0.0f, 1.0f),  XMFLOAT2(1.0f, 1.0f)},
+
+	{XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, -1.0f),  XMFLOAT2(0.0f, 0.0f)},    // side 2
+	{XMFLOAT3(-1.0f, 1.0f, -1.0f),  XMFLOAT3(0.0f, 0.0f, -1.0f),  XMFLOAT2(0.0f, 1.0f)},
+	{XMFLOAT3(1.0f, -1.0f, -1.0f),  XMFLOAT3(0.0f, 0.0f, -1.0f),  XMFLOAT2(1.0f, 0.0f)},
+	{XMFLOAT3(1.0f, 1.0f, -1.0f),   XMFLOAT3(0.0f, 0.0f, -1.0f),  XMFLOAT2(1.0f, 1.0f)},
+
+	{XMFLOAT3(-1.0f, 1.0f, -1.0f),  XMFLOAT3(0.0f, 1.0f, 0.0f),  XMFLOAT2(0.0f, 0.0f)},    // side 3
+	{XMFLOAT3(-1.0f, 1.0f, 1.0f),   XMFLOAT3(0.0f, 1.0f, 0.0f),  XMFLOAT2(0.0f, 1.0f)},
+	{XMFLOAT3(1.0f, 1.0f, -1.0f),   XMFLOAT3(0.0f, 1.0f, 0.0f),  XMFLOAT2(1.0f, 0.0f)},
+	{XMFLOAT3(1.0f, 1.0f, 1.0f),    XMFLOAT3(0.0f, 1.0f, 0.0f),  XMFLOAT2(1.0f, 1.0f)},
+
+	{XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, -1.0f, 0.0f),  XMFLOAT2(0.0f, 0.0f)},    // side 4
+	{XMFLOAT3(1.0f, -1.0f, -1.0f),  XMFLOAT3(0.0f, -1.0f, 0.0f),  XMFLOAT2(0.0f, 1.0f)},
+	{XMFLOAT3(-1.0f, -1.0f, 1.0f),  XMFLOAT3(0.0f, -1.0f, 0.0f),  XMFLOAT2(1.0f, 0.0f)},
+	{XMFLOAT3(1.0f, -1.0f, 1.0f),   XMFLOAT3(0.0f, -1.0f, 0.0f),  XMFLOAT2(1.0f, 1.0f)},
+
+	{XMFLOAT3(1.0f, -1.0f, -1.0f),  XMFLOAT3(1.0f, 0.0f, 0.0f),  XMFLOAT2(0.0f, 0.0f)},    // side 5
+	{XMFLOAT3(1.0f, 1.0f, -1.0f),   XMFLOAT3(1.0f, 0.0f, 0.0f),  XMFLOAT2(0.0f, 1.0f)},
+	{XMFLOAT3(1.0f, -1.0f, 1.0f),   XMFLOAT3(1.0f, 0.0f, 0.0f),  XMFLOAT2(1.0f, 0.0f)},
+	{XMFLOAT3(1.0f, 1.0f, 1.0f),    XMFLOAT3(1.0f, 0.0f, 0.0f),  XMFLOAT2(1.0f, 1.0f)},
+
+	{XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(-1.0f, 0.0f, 0.0f),  XMFLOAT2(0.0f, 0.0f)},    // side 6
+	{XMFLOAT3(-1.0f, -1.0f, 1.0f),  XMFLOAT3(-1.0f, 0.0f, 0.0f),  XMFLOAT2(0.0f, 1.0f)},
+	{XMFLOAT3(-1.0f, 1.0f, -1.0f),  XMFLOAT3(-1.0f, 0.0f, 0.0f),  XMFLOAT2(1.0f, 0.0f)},
+	{XMFLOAT3(-1.0f, 1.0f, 1.0f),   XMFLOAT3(-1.0f, 0.0f, 0.0f),  XMFLOAT2(1.0f, 1.0f)},
+};
+
+DWORD cubeIndices1[] =
+{
+	0, 1, 2,       // side 1
+	2, 1, 3,
+	4, 5, 6,       // side 2
+	6, 5, 7,
+	8, 9, 10,      // side 3
+	10, 9, 11,
+	12, 13, 14,    // side 4
+	14, 13, 15,
+	16, 17, 18,    // side 5
+	18, 17, 19,
+	20, 21, 22,    // side 6
+	22, 21, 23,
+};
+
+
+
 //-----------------------------------------------------------------------------
 // Name: Constructor
 // Desc: Creates the Tank
@@ -21,7 +73,7 @@ Tank::Tank(void)
 Tank::Tank(wstring name, Framework* frame, float x, float z, FrameWorkResourceManager* frameResourcesManager)
 {
 //	XMMATRIX Identity(&_worldMatrix);
-	XMMATRIX Identity(_worldMatrix);
+//	XMMATRIX Identity(_worldMatrix);
 	_thirdPerson = false;
 	_fire = false;
 	_scale = 0.5f;
@@ -35,52 +87,72 @@ Tank::Tank(wstring name, Framework* frame, float x, float z, FrameWorkResourceMa
 //	_texture = NULL;
 	_collsion = false;
 	_delete = false;
-//	_pd3dDevice = _frame->GetDirect3dDevice();
-	_sGraph =_frame->GetSceneGraph();
-	_renderCam = _frame->GetCamera();
+////	_pd3dDevice = _frame->GetDirect3dDevice();
 
-	_bulletCount = 0;
+	_pd3dDevice = _frame->GetDirectDevice();
+	_deviceContext = _frame->GetDirectDeviceContext();
 
- 	_cameraSpeed = 10.0f;
-	_yaw = 0.0f;					// Degrees of yaw (in radians)
-	_pitch = 0.0f;					// Degrees of pitch (in radians)
-	_roll = 0.0f;
-
-	_terrainNode = _frame->GetTerrain();
-
-	// Get the height of the terrain at x, z
-//	_y = _terrainNode->GetHeight(_x, _z);////////////////////////////////////////////////////////
-
-//	_position = XMVECTOR(_x, _y, _z);
-
+//	_sGraph =_frame->GetSceneGraph();
+//	_renderCam = _frame->GetCamera();
+//
+//	_bulletCount = 0;
+//
+// 	_cameraSpeed = 10.0f;
+//	_yaw = 0.0f;					// Degrees of yaw (in radians)
+//	_pitch = 0.0f;					// Degrees of pitch (in radians)
+//	_roll = 0.0f;
+//
+//	_terrainNode = _frame->GetTerrain();
+//
+//	// Get the height of the terrain at x, z
+////	_y = _terrainNode->GetHeight(_x, _z);////////////////////////////////////////////////////////
+//
+////	_position = XMVECTOR(_x, _y, _z);
+//
 	_frameWorkResourcesManager = frameResourcesManager;
-//	_mesh = _frameWorkResourcesManager->GetMesh(L"Tiger.x", false);
-//	_texture = _frameWorkResourcesManager->GetTexture(L"Tiger.x");
-//	_material = _frameWorkResourcesManager->GetMaterial(L"Tiger.x");
+	//const aiScene* mesh = _frameWorkResourcesManager->LoadAsset("Tiger.x");
+	//aiScene* mesh = _frameWorkResourcesManager->LoadAsset("Tiger.obj");
+	_frameWorkResourcesManager->LoadAsset("Tiger.x");
 
-//	_sGraph->AddNode(_boundingBox = new BoundingBox(_mesh, _pd3dDevice, _x,_y,_z, L"boundingBox", _scale),L"Parent");
+	// Get the mesh stuff from the model
+	meshy = _frameWorkResourcesManager->GetMesh();
 
-	// Get the 4 vectors
-	_tankFrontLeftPos = _boundingBox->GetFrontLeftVector();
-	_tankFrontMidPos = _boundingBox->GetFrontMidVector();
-	_tankFrontRightPos = _boundingBox->GetFrontRightVector();
-	_tankRearMidPos = _boundingBox->GetRearMidVector();
+	InitialiseTank();
 
-	// Calculate the Hypotenuse values
-//	_xHypotenuse =  _tankFrontLeftPos.x - _tankFrontRightPos.x ;
-//	_zHypotenuse =  _tankRearMidPos.z - _tankFrontMidPos.z;
+	projectionTransformation = XMMatrixPerspectiveFovLH(XM_PIDIV4, 1.28f, 0.1f, 1500.0f);
+	_worldTransformation = XMMatrixTranslation(0.0f, 20.0f, 0.0f);// XMMatrixIdentity();_worldTransformation = XMMatrixIdentity();
+	_scalingMatrix = XMMatrixScaling(0.5f, 0.5f, 0.05);
 
-	//D3DXFONT_DESC fontDesc;
-	//fontDesc.Height          = 22;
- //   fontDesc.Width           = 0;
- //   fontDesc.Weight          = FW_BOLD;
- //   fontDesc.MipLevels       = 1;
- //   fontDesc.Italic          = false;
- //   fontDesc.CharSet         = DEFAULT_CHARSET;
- //   fontDesc.OutputPrecision = OUT_DEFAULT_PRECIS;
- //   fontDesc.Quality         = DEFAULT_QUALITY;
- //   fontDesc.PitchAndFamily  = DEFAULT_PITCH | FF_DONTCARE;
-//	D3DXCreateFontIndirect(_pd3dDevice, &fontDesc, &mFont);
+
+
+
+////	_mesh = _frameWorkResourcesManager->GetMesh(L"Tiger.x", false);
+////	_texture = _frameWorkResourcesManager->GetTexture(L"Tiger.x");
+////	_material = _frameWorkResourcesManager->GetMaterial(L"Tiger.x");
+//
+////	_sGraph->AddNode(_boundingBox = new BoundingBox(_mesh, _pd3dDevice, _x,_y,_z, L"boundingBox", _scale),L"Parent");
+//
+//	// Get the 4 vectors
+//	_tankFrontLeftPos = _boundingBox->GetFrontLeftVector();
+//	_tankFrontMidPos = _boundingBox->GetFrontMidVector();
+//	_tankFrontRightPos = _boundingBox->GetFrontRightVector();
+//	_tankRearMidPos = _boundingBox->GetRearMidVector();
+//
+//	// Calculate the Hypotenuse values
+////	_xHypotenuse =  _tankFrontLeftPos.x - _tankFrontRightPos.x ;
+////	_zHypotenuse =  _tankRearMidPos.z - _tankFrontMidPos.z;
+//
+//	//D3DXFONT_DESC fontDesc;
+//	//fontDesc.Height          = 22;
+// //   fontDesc.Width           = 0;
+// //   fontDesc.Weight          = FW_BOLD;
+// //   fontDesc.MipLevels       = 1;
+// //   fontDesc.Italic          = false;
+// //   fontDesc.CharSet         = DEFAULT_CHARSET;
+// //   fontDesc.OutputPrecision = OUT_DEFAULT_PRECIS;
+// //   fontDesc.Quality         = DEFAULT_QUALITY;
+// //   fontDesc.PitchAndFamily  = DEFAULT_PITCH | FF_DONTCARE;
+////	D3DXCreateFontIndirect(_pd3dDevice, &fontDesc, &mFont);
 }
 
 //-----------------------------------------------------------------------------
@@ -113,6 +185,83 @@ void Tank::Shutdown(void)
 	}
 	*/
 }
+
+
+
+HRESULT Tank::InitialiseTank(void)
+{
+	m_vertices = new VERTEX[meshy[0].vertices.size()];
+	for (unsigned int i = 0; i < meshy[0].vertices.size(); i++)
+	{
+		m_vertices[i].Position.x = meshy[0].vertices.at(i).X;
+		m_vertices[i].Position.y = meshy[0].vertices.at(i).Y;
+		m_vertices[i].Position.z = meshy[0].vertices.at(i).Z;
+
+		m_vertices[i].Normal.x = 0;
+		m_vertices[i].Normal.y = 0;
+		m_vertices[i].Normal.z = 0;
+
+		m_vertices[i].TexCoord.x = meshy[0].vertices.at(i).texcoord.x;
+		m_vertices[i].TexCoord.y = meshy[0].vertices.at(i).texcoord.y;
+	}
+
+	// Allocate & copy the mesh indices
+	m_indices = new DWORD[meshy[0].indices.size()];
+	for (unsigned int i = 0; i < meshy[0].indices.size(); i++)
+	{
+		m_indices[i] = meshy[0].indices.at(i);
+	}
+
+	//std::ofstream ofs("tank verts.txt");
+	//for (unsigned int i = 0; i < meshy[0].vertices.size(); i++) {
+	//	ofs << "vert x ->" << m_vertices[i].Position.x;
+	//	ofs << "vert y ->" << m_vertices[i].Position.y;
+	//	ofs << "vert z ->" << m_vertices[i].Position.z << std::endl;
+	//}
+
+	//std::ofstream ofs1("tank indices.txt");
+	//for (unsigned int i = 0; i < meshy[0].indices.size(); i++) {
+	//	ofs1 << "index -> " << m_indices[i] << std::endl;
+	//}
+
+	m_numVertices = meshy[0].vertices.size();
+	m_numIndices = meshy[0].indices.size();
+
+	//m_numVertices = unsigned(size(cubeVertices1)*3);
+	//m_numIndices = unsigned(size(cubeIndices1));
+	//m_vertices = cubeVertices1;
+	//m_indices = cubeIndices1;
+
+
+	InitialiseGeometry();
+
+#pragma region Load texture from file
+
+	// Load a DDS texture
+	if (FAILED(CreateDDSTextureFromFile(_pd3dDevice, L"triax_tracks.dds", nullptr, &_texture)))
+	{
+		return S_OK;
+	}
+#pragma endregion
+
+
+	// Set the rasterizer state
+	D3D11_RASTERIZER_DESC rd;
+	ZeroMemory(&rd, sizeof(rd));
+	//rd.AntialiasedLineEnable = false;
+//	rd.CullMode = D3D11_CULL_NONE;// BACK;
+	rd.CullMode = D3D11_CULL_BACK;
+//	rd.CullMode = D3D11_CULL_FRONT;
+	//rd.FrontCounterClockwise = false;
+	rd.FrontCounterClockwise = true;
+	//rd.FillMode = D3D11_FILL_WIREFRAME;
+	rd.FillMode = D3D11_FILL_SOLID;
+	_pd3dDevice->CreateRasterizerState(&rd, &pRSWireFrame1);
+	_deviceContext->RSSetState(pRSWireFrame1);
+
+	return S_OK;
+}
+
 
 //-----------------------------------------------------------------------------
 // Name: Render()
@@ -169,6 +318,41 @@ HRESULT Tank::Render(void)
 
 	_position.y = _terrainNode->GetHeight(_tankFrontLeftPos.x + _position.x, _tankFrontLeftPos.z  + _position.z);
 */
+
+
+	XMMATRIX viewTransformation = _camRender->GetViewMatrix();
+
+	XMMATRIX completeTransformation = _scalingMatrix * /* _rotation **/  _worldTransformation * viewTransformation * projectionTransformation;
+
+	CBUFFER cBuffer;
+	cBuffer.LightVector = XMVector4Normalize(XMVectorSet(1.0f, 0.0f, 1.0f, 0.0f));
+	cBuffer.LightColor = XMFLOAT4(0.75f, 0.75f, 0.75f, 1.0f);
+	cBuffer.AmbientColor = XMFLOAT4(0.44f, 0.57f, 0.74f, 1.0f);
+	cBuffer.CompleteTransformation = completeTransformation;
+	cBuffer.WorldTransformation = _worldTransformation;
+
+
+	// Update the constant buffer with the complete transformation
+	_deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
+	_deviceContext->UpdateSubresource(constantBuffer, 0, 0, &cBuffer, 0, 0);
+
+	// Set the texture to be used by the pixel shader
+	_deviceContext->PSSetShaderResources(0, 1, &_texture);
+
+
+	UINT stride = sizeof(VERTEX);
+	UINT offset = 0;
+	_deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+	_deviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
+	_deviceContext->RSSetState(NULL);
+	_deviceContext->RSSetState(pRSWireFrame1);
+
+	_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	_deviceContext->DrawIndexed(m_numIndices, 0, 0);
+
+
 	return S_OK;
 }
 
@@ -309,4 +493,10 @@ void Tank::SetPosition(XMVECTOR distance)
 void Tank::SetCameraType(bool cameraType)
 {
 	_thirdPerson = cameraType;
+}
+
+
+void Tank::SetCamera(Camera* _cameraRender)
+{
+	_camRender = _cameraRender;
 }

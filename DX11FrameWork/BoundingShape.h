@@ -15,7 +15,7 @@ public:
 
 	wstring GetType(void)const;
 	float GetRadius(void);
-	XMVECTOR* GetCenter(void);
+//	XMVECTOR* GetCenter(void);
 
 	virtual void SetDelete(bool deleteValue);
 	virtual bool DeleteMe(void);
@@ -24,8 +24,8 @@ public:
 
 protected:
 
-	XMVECTOR* vertices;
-	XMVECTOR* _center;
+//	XMVECTOR* vertices;
+//	XMVECTOR* _center;
 	XMMATRIX _worldMatrix;
 
 	float _radius;

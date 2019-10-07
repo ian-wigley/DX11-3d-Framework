@@ -1,6 +1,7 @@
 #include "BoundingShape.h"
 #include "SceneNode.h"
-#include <d3d11_1.h>
+//#include <d3d11_1.h>
+#include <d3d11.h>
 #include <string.h>
 #include <algorithm>
 #include <vector>

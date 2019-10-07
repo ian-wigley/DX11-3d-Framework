@@ -1,7 +1,6 @@
 //-----------------------------------------------------------------------------
 // File: Tree.cpp
 // Description : This Class managers the Tree
-
 //-----------------------------------------------------------------------------
 
 #include "Castle.h"
@@ -68,7 +67,7 @@ Castle::Castle(wstring name, Framework* frame, float x, float z, FrameWorkResour
 //	_mesh = _frameWorkResourcesManager->GetMesh(L"Castle.x", false);
 //	_material = _frameWorkResourcesManager->GetMaterial(L"Castle.x");
 //	_texture = _frameWorkResourcesManager->GetTexture(L"Castle.x");
-	_numberOfMaterials = _frameWorkResourcesManager->GetNumberOfMatrials();
+//	_numberOfMaterials = _frameWorkResourcesManager->GetNumberOfMatrials();
 
 	_y = _terrainNode->GetHeight(_x, _z) - 5.0f;
 
