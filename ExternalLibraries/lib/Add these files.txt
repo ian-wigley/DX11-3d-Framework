@@ -1,0 +1,6 @@
+assimp-vc141-mtd.dll
+assimp-vc141-mtd.exp
+assimp-vc141-mtd.ilk
+assimp-vc141-mtd.lib
+assimp-vc141-mtd.pdb
+
