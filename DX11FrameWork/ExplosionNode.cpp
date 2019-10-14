@@ -21,7 +21,7 @@ ExplosionNode::ExplosionNode(wstring name, Framework* frame, XMVECTOR position, 
 {
 	_delete = false;
 //	_position = position;
-	_angle = 0;
+	this->m_angle = 0;
 //	_x = _position.x - 5.0f;
 //	_y = _position.y;
 //	_z = _position.z;

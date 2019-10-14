@@ -16,7 +16,7 @@ class BulletNode :
 {
 public:
 	BulletNode(void);
-	BulletNode::BulletNode(wstring name, Framework* frame, XMVECTOR& position, float angle, FrameWorkResourceManager* frameResourcesManager);
+	BulletNode::BulletNode(wstring name, Framework* frame, XMFLOAT3& position, float angle, FrameWorkResourceManager* frameResourcesManager);
 	~BulletNode(void);
 	HRESULT Render(void);
 	void Update(void);
@@ -27,15 +27,16 @@ private:
 	void Shutdown(void);
 	HRESULT InitialiseBullet(void);
 
-	float _maxDistance;
-	float _startDistance;
+	float m_maxDistance;
+	float m_startDistance;
 
 	BoundingShape* _boundingShape;
 	BoundingSphere* _boundingSphere;
 	Framework* _frame;
 	FrameWorkResourceManager* _frameWorkResourcesManager;
 	SceneGraph* _sGraph;
-	TerrainNode* _terrainNode;
+	TerrainNode* m_terrainNode;
 	ExplosionNode* _explosion;
+	Camera* _camRender;
 };
 

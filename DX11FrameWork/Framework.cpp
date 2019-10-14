@@ -565,7 +565,10 @@ LRESULT Framework::MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 		case 'S':
 			_renderCamera->MoveUp(_amountOfMovement * -1);
 			break;
-
+		case 'b':
+		case 'B':
+			_tank->FireBullet();
+			break;
 			//Change to 1st person camera
 		case '1':
 			//_tank->SetCameraType(false);

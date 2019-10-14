@@ -75,7 +75,7 @@ public:
 	virtual void ExternalDeleteMe(bool deleteMe);
 	virtual bool CheckDirectionX(void);
 	virtual bool CheckDirectionZ(void);
-//	virtual void SetPosition(XMVECTOR distance);
+	//	virtual void SetPosition(XMVECTOR distance);
 
 	bool DeleteMe(void);
 	wstring ReturnName(void);
@@ -112,14 +112,14 @@ protected:
 	ID3D11ShaderResourceView* m_texture;
 
 	float _cameraSpeed;
-    float _angle;
+    float m_angle;
 	float _yaw;						// Degrees of yaw (in radians)
 	float _pitch;					// Degrees of pitch (in radians)
 	float _roll;					// Degrees of roll (in radians)
 	float m_x;
 	float m_y;
 	float m_z;
-	float _scale;
+	float m_scale;
 
 	bool _collsion;
 	bool _delete;
@@ -133,6 +133,8 @@ protected:
 	XMMATRIX m_projectionTransformation;
 	XMMATRIX m_scalingMatrix;
 	XMMATRIX m_worldTransformation;
+
+	XMFLOAT3 m_position;
 
 	HRESULT InitialiseGeometry(void);
 

@@ -11,7 +11,7 @@ Tree::Tree(void)
 
 Tree::Tree(wstring name, Framework* frame, float x, float z, FrameWorkResourceManager* _frameResourcesManager)
 {
-	_scale = 10.0f;
+	this->m_scale = 10.0f;
 	_name = name;
 	_frame = frame;
 //	_pd3dDevice = _frame->GetDirect3dDevice();

@@ -47,9 +47,9 @@ private:
 	BoundingShape* _boundingShape;
 	//BoundingSphere* _boundingSphere;
 	//BoundingBlox* _boundingBox;
-	//BulletNode* _bullet;
+	BulletNode* _bullet;
 	//CameraRender* _renderCam;
-	//SceneGraph* m_sGraph;
+	SceneGraph* m_sGraph;
 	//TerrainNode* m_terrainNode;
 	Camera* m_camRender;
 	Framework* m_frame;

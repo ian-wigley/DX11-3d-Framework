@@ -72,7 +72,7 @@ WoodenCrate::WoodenCrate(wstring name, Framework *_frame, float x, float z, Fram
 	this->m_y = 0;
 	this->m_z = z;
 	_name = name;
-	_scale = 1.0f;
+	this->m_scale = 1.0f;
 	this->m_device = _frame->GetDirectDevice();
 	this->m_deviceContext = _frame->GetDirectDeviceContext();
 	this->m_zBuffer = _frame->GetStencilBuffer();

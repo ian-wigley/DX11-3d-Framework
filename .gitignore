@@ -109,3 +109,4 @@ Debug/TerrainShader.cso
 *.tlog
 *.idb
 *.pdb
+DX11FrameWork/Debug/bulletnode.obj.enc

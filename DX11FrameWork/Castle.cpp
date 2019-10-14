@@ -56,7 +56,7 @@ Castle::Castle(wstring name, Framework* frame, float x, float z, FrameWorkResour
 	_name = name;
 	_frame = frame;
 //	_texture = NULL;
-	_scale = 1.0f;
+	this->m_scale = 1.0f;
 	_collsion = false;
 	_delete = false;
 //	_pd3dDevice = _frame->GetDirect3dDevice();

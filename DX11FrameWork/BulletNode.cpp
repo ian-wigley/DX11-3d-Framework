@@ -27,24 +27,25 @@ BulletNode::BulletNode(void)
 // Name: Constructor
 // Desc: Creates the Bullet
 //-----------------------------------------------------------------------------
-BulletNode::BulletNode(wstring name, Framework* frame, XMVECTOR& position, float angle, FrameWorkResourceManager* frameResourcesManager)
+BulletNode::BulletNode(wstring name, Framework* frame, XMFLOAT3& position, float angle, FrameWorkResourceManager* frameResourcesManager)
 {
-	//_position = position;
-	//_maxDistance = 200.0f + _position.z;
-	_scale = 0.0f;
-	_angle = angle;
-	//this->m_x = _position.x;
-	//this->m_y = _position.y + 9.0f;
-	//this->m_z = _position.z;
+	this->m_position = position;
+	this->m_maxDistance = 200.0f + this->m_position.z;
+	this->m_scale = 0.0f;
+	this->m_angle = angle;
+	this->m_x = this->m_position.x;
+	this->m_y = this->m_position.y + 9.0f;
+	this->m_z = this->m_position.z;
 	_name = name;
 	_frame = frame;
 	//	_texture = NULL;
 	_collsion = false;
 	_delete = false;
-	//	_pd3dDevice = _frame->GetDirect3dDevice();
+	this->m_device = _frame->GetDirectDevice();
+	this->m_deviceContext = _frame->GetDirectDeviceContext();
 	_sGraph =_frame->GetSceneGraph();
-	//	_position = XMVECTOR(_x, _y, _z);
-	_terrainNode = _frame->GetTerrain();
+
+	this->m_terrainNode = _frame->GetTerrain();
 	_frameWorkResourcesManager = frameResourcesManager;
 	//_materials = _frameWorkResourcesManager->GetDefaultBlackMaterial();
 	InitialiseBullet();
@@ -167,45 +168,45 @@ HRESULT BulletNode::Render(void)
 //-----------------------------------------------------------------------------
 void BulletNode::Update(void)
 {
-	float _bulletHeight = _terrainNode->GetHeight(this->m_x, this->m_z);
+	float _bulletHeight = this->m_terrainNode->GetHeight(this->m_x, this->m_z);
 	
-	if (this->m_z < _maxDistance)
+	if (this->m_z < this->m_maxDistance)
 	{
 		// 240 degrees to 180 degrees
-		if(_angle < -0.80f && _angle > -1.60f || _angle > 0.80f && _angle < 1.60f)
+		if(this->m_angle < -0.80f && this->m_angle > -1.60f || this->m_angle > 0.80f && this->m_angle < 1.60f)
 		{
 			this->m_z -= 2.0f;
-			this->m_x += _angle;
+			this->m_x += this->m_angle;
 		}
 
 		// 180 degrees to 90 degrees
-		else if(_angle < -1.60f && _angle > -2.40f || _angle > 1.60f && _angle < 2.40f)
+		else if(this->m_angle < -1.60f && this->m_angle > -2.40f || this->m_angle > 1.60f && this->m_angle < 2.40f)
 		{
 			this->m_z -= 2.0f;
-			this->m_x += (_angle*-1);
+			this->m_x += (this->m_angle*-1);
 		}
 
-		else if (_angle > 2.4f && _angle < 4.0f)
+		else if (this->m_angle > 2.4f && this->m_angle < 4.0f)
 		{
 			this->m_z += 2.0f;
-			this->m_x -= (_angle - 2.4f);
+			this->m_x -= (this->m_angle - 2.4f);
 		}
 
-		else if (_angle < -2.4f && _angle > -4.0f)
+		else if (this->m_angle < -2.4f && this->m_angle > -4.0f)
 		{
 			this->m_z += 2.0f;
-			this->m_x += (_angle + 2.4f) * -1;
+			this->m_x += (this->m_angle + 2.4f) * -1;
 		}
 
 		else
 		{
 			this->m_z += 2.0f;
-			this->m_x += _angle;
+			this->m_x += this->m_angle;
 		}
 	}
 
 	// Bullet has reached the end of it's travel or collided the terrain
-	if(this->m_z >= _maxDistance || this->m_y < _bulletHeight)
+	if(this->m_z >= this->m_maxDistance || this->m_y < _bulletHeight)
 	{
 		_delete = true;
 		_boundingSphere->SetDelete(true);

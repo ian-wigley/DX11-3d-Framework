@@ -65,7 +65,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, LPWSTR, int)
 
 	_frameResourcesManager = new FrameWorkResourceManager(_frame);
 	_sGraph->AddNode(_tNode = new TerrainNode(L"Terrain", _frame, _frameResourcesManager),L"Parent");
-	
+	// Set the TerrainNode up in the Framework
+	_frame->SetTerrain(_tNode);
+
 	//	_sGraph->AddNode(_dirLight = new DirectionalLight(L"DirectionalLight", _frame),L"Parent");
 
 

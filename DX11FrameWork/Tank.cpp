@@ -21,8 +21,8 @@ Tank::Tank(wstring name, Framework* frame, float x, float z, FrameWorkResourceMa
 {
 	this->m_thirdPerson = false;
 	this->m_fire = false;
-	_scale = 0.5f;
-	_angle = 0;
+	this->m_scale = 0.5f;
+	this->m_angle = 0;
 	this->m_x = x;
 	this->m_y = 0;
 	this->m_z = z;
@@ -37,7 +37,7 @@ Tank::Tank(wstring name, Framework* frame, float x, float z, FrameWorkResourceMa
 
 	//	_sGraph =_frame->GetSceneGraph();
 	//	_renderCam = _frame->GetCamera();
-	//	_bulletCount = 0;
+	this->m_bulletCount = 0;
 	// 	_cameraSpeed = 10.0f;
 	//	_yaw = 0.0f;					// Degrees of yaw (in radians)
 	//	_pitch = 0.0f;					// Degrees of pitch (in radians)
@@ -46,10 +46,11 @@ Tank::Tank(wstring name, Framework* frame, float x, float z, FrameWorkResourceMa
 
 	//	// Get the height of the terrain at x, z
 	////	_y = _terrainNode->GetHeight(_x, _z);
-	////	_position = XMVECTOR(_x, _y, _z);
+	this->m_position = XMFLOAT3(m_x, m_y, m_z);
 
 	this->m_frameWorkResourcesManager = frameResourcesManager;
 	this->m_frameWorkResourcesManager->LoadAsset("Tiger.x");
+	this->m_sGraph = this->m_frame->GetSceneGraph();
 
 	// Get the mesh stuff from the model
 	meshy = this->m_frameWorkResourcesManager->GetMesh();
@@ -282,7 +283,7 @@ void Tank::FireBullet(void)
 	wstringstream streamVal;
 	streamVal << this->m_bulletCount;
 	wstring _bulletName = L"BulletNode" + streamVal.str();
-	//	_sGraph->AddNode(_bullet = new BulletNode(_bulletName, _frame, _position, _angle, _frameWorkResourcesManager),L"Parent");
+	m_sGraph->AddNode(_bullet = new BulletNode(_bulletName, this->m_frame, this->m_position, this->m_angle, this->m_frameWorkResourcesManager),L"Parent");
 }
 
 //-----------------------------------------------------------------------------
@@ -325,10 +326,10 @@ void Tank::MoveForward(float amountOfMovement)
 void Tank::Yaw(float amountOfMovement)
 {
 	_yaw += amountOfMovement;
-	_angle += amountOfMovement;
-	if (_angle > 3.141 || _angle < -3.141)
+	this->m_angle += amountOfMovement;
+	if (this->m_angle > 3.141 || this->m_angle < -3.141)
 	{
-		_angle = 0;
+		this->m_angle = 0;
 		_yaw = 0;
 	}
 }

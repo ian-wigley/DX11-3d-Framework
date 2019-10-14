@@ -11,32 +11,12 @@ Camera::Camera(ID3D11DeviceContext* deviceContext, TerrainNode* terrainNode, Tan
 //	_cameraRight = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 //	_cameraUp = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
-//	//------------------------------------------------------------------------------------------
-//
-//
+	//------------------------------------------------------------------------------------------
+
 	_cameraPosition = XMVectorSet(0.0f, -130.0f, -400.0f, 0.0f);
-//
-//	//_cameraPosition = XMVectorSet(0.0f, -130.0f, -550.0f, 0.0);
-//	////_cameraPosition = XMVectorSet(-18.7096844, 365.0f, 74.7193985, 0.0);// 625.000000);// 0.0f, -130.0f, -550.0f, 0.0);
-//	//--------------------------------------------------------------------------------------------
-//
-	//	XMMATRIX Identity (_viewMatrix);
-
-
-
-
-
-	/*
-
-	Copied from Rastertek
-
-	*/
-
-
 
 	//float m_positionX, m_positionY, m_positionZ;
 	//float m_rotationX, m_rotationY, m_rotationZ;
-
 
 	m_positionX = 0.0f;
 	m_positionY = 40.0f;
@@ -46,13 +26,10 @@ Camera::Camera(ID3D11DeviceContext* deviceContext, TerrainNode* terrainNode, Tan
 	m_rotationY = 1.0f;
 	m_rotationZ = 0.0f;
 
-	   	 
-
 	XMFLOAT3 up, position, lookAt;
 	XMVECTOR upVector, positionVector, lookAtVector;
 	float yaw, pitch, roll;
 	XMMATRIX rotationMatrix;
-
 
 	// Setup the vector that points upwards.
 	up.x = 0.0f;
@@ -96,22 +73,10 @@ Camera::Camera(ID3D11DeviceContext* deviceContext, TerrainNode* terrainNode, Tan
 	// Finally create the view matrix from the three updated vectors.
 	_viewMatrix = XMMatrixLookAtLH(positionVector, lookAtVector, upVector);
 
-
-
-
-
-	//Test ! 23/06/2019
 	_cameraPosition = positionVector;
 	cameraTarget = lookAtVector;
 	_cameraUp = upVector;
 	   	  
-	// Original version !
-	//_viewMatrix = XMMatrixIdentity();
-
-
-
-//
-//
 //	_thirdPerson = false;
 //
 //	_angle = 0;
@@ -168,20 +133,13 @@ void Camera::Update(void)
 
 	////XMVECTOR cameraTarget = _cameraPosition + XMVector3Normalize(_cameraForward);
 
-
 	//// Translate the rotated camera position to the location of the viewer.
 	//_cameraUp = XMVectorAdd(_cameraPosition, _cameraUp);
-
 	////XMVECTOR cameraTarget = 
 	//_viewMatrix = XMMatrixLookAtLH(_cameraPosition, cameraTarget, _cameraUp);
 
-
-
 	//// Finally create the view matrix from the three updated vectors.
 	////_viewMatrix = XMMatrixLookAtLH(positionVector, lookAtVector, upVector);
-
-
-
 
 	XMFLOAT3 up, position, lookAt;
 	XMVECTOR upVector, positionVector, lookAtVector;
@@ -230,15 +188,6 @@ void Camera::Update(void)
 
 	// Finally create the view matrix from the three updated vectors.
 	_viewMatrix = XMMatrixLookAtLH(positionVector, lookAtVector, upVector);
-
-
-
-
-
-
-
-
-
 }
 
 
