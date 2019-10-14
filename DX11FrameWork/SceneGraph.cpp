@@ -1,14 +1,13 @@
 //-----------------------------------------------------------------------------
 // File: SceneGraph.cpp
 // Description : This Class managers the Scene
-
 //-----------------------------------------------------------------------------
 
 #include "SceneGraph.h"
 
 //-----------------------------------------------------------------------------
-// Name: ???()
-// Desc: ???
+// Name: SceneGraph()
+// Desc: Constructor
 //-----------------------------------------------------------------------------
 SceneGraph::SceneGraph(void)
 {
@@ -18,14 +17,12 @@ SceneGraph::SceneGraph(void)
 // Name: SceneGraph()
 // Desc: Constructor
 //-----------------------------------------------------------------------------
-//SceneGraph::SceneGraph(LPDIRECT3DDEVICE9 pd3dDevice)
 SceneGraph::SceneGraph(ID3D11Device* device, ID3D11DeviceContext* deviceContext, IDXGISwapChain* swapChain, ID3D11RenderTargetView* renderTarget)
 {
-	_device = device;
-	_deviceContext = deviceContext;
-	_renderTarget = renderTarget;
-	_swapChain = swapChain;
-	//_pd3dDevice = pd3dDevice;
+	this->m_device = device;
+	this->m_deviceContext = deviceContext;
+	this->m_renderTarget = renderTarget;
+	this->m_swapChain = swapChain;
 }
 
 //-----------------------------------------------------------------------------
@@ -43,15 +40,14 @@ SceneGraph::~SceneGraph(void)
 //-----------------------------------------------------------------------------
 HRESULT SceneGraph::Render(void)
 {
-////	if( NULL == _pd3dDevice )
-	if( NULL == _device )
+	if( NULL == this->m_device )
 	{
 		return E_FAIL;
 	}
 
 	// Clear the screen to black
 	float clearColor[4] = {0.0f, 0.0f, 0.0f, 1.0f};
-	_deviceContext->ClearRenderTargetView(_renderTarget, clearColor);
+	this->m_deviceContext->ClearRenderTargetView(this->m_renderTarget, clearColor);
 
 	// Any rendering code goes here
 
@@ -60,18 +56,6 @@ HRESULT SceneGraph::Render(void)
 
 	for (unsigned int i = 0; i < _nodes.size(); i++)
 	{
-		//_nodes[0]->Update();
-		//_nodes[1]->Update();
-		//_nodes[2]->Update();
-
-		//// 0 -> Terrain
-		//_nodes[0]->Render();
-		//// 1 -> Tank
-		//_nodes[1]->Render();
-		//// 2 -> Cube
-		//_nodes[2]->Render();
-
-
 		_nodes[i]->Update();
 		_nodes[i]->Render();
 
@@ -117,11 +101,11 @@ HRESULT SceneGraph::Render(void)
 	}
 
 //	_camera->Update();
-////	_camera->Render();
+//_camera->Render();
 
 
 	// Show the back buffer in the window
-	_swapChain->Present(0, 0);
+	this->m_swapChain->Present(0, 0);
 
 
 
@@ -225,7 +209,6 @@ void SceneGraph::Update(void)
 	{
 		_nodes[i]->Update();
 	}
-
 }
 
 //-----------------------------------------------------------------------------

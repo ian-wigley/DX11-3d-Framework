@@ -50,9 +50,9 @@ void Castle::Shutdown(void)
 //-----------------------------------------------------------------------------
 Castle::Castle(wstring name, Framework* frame, float x, float z, FrameWorkResourceManager* _frameResourcesManager)
 {
-	_x = x;
-	_y = 0;
-	_z = z;
+	this->m_x = x;
+	this->m_y = 0;
+	this->m_z = z;
 	_name = name;
 	_frame = frame;
 //	_texture = NULL;
@@ -69,7 +69,7 @@ Castle::Castle(wstring name, Framework* frame, float x, float z, FrameWorkResour
 //	_texture = _frameWorkResourcesManager->GetTexture(L"Castle.x");
 //	_numberOfMaterials = _frameWorkResourcesManager->GetNumberOfMatrials();
 
-	_y = _terrainNode->GetHeight(_x, _z) - 5.0f;
+	this->m_y = _terrainNode->GetHeight(this->m_x, this->m_z) - 5.0f;
 
 //	_sGraph->AddNode(_boundingBox = new BoundingBox(_mesh, _pd3dDevice, _x,_y,_z, L"boundingBox", _scale),L"Parent");
 }

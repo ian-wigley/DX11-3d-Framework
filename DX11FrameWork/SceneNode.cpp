@@ -266,49 +266,49 @@ void SceneNode::SetPosition(XMVECTOR distance)
 HRESULT SceneNode::InitialiseGeometry(void) {
 	// Load the buffers with the data
 #pragma region Set up vertex buffer
-	ZeroMemory(&bufferDesc, sizeof(bufferDesc));
-	bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-	bufferDesc.ByteWidth = sizeof(VERTEX) * m_numVertices;
-	bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	if (FAILED(_pd3dDevice->CreateBuffer(&bufferDesc, NULL, &vertexBuffer)))
+	ZeroMemory(&this->m_bufferDesc, sizeof(this->m_bufferDesc));
+	this->m_bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+	this->m_bufferDesc.ByteWidth = sizeof(VERTEX) * m_numVertices;
+	this->m_bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	this->m_bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	if (FAILED(this->m_device->CreateBuffer(&this->m_bufferDesc, NULL, &this->m_vertexBuffer)))
 	{
 		return false;
 	}
 	// Copy vertices to the vertex buffer
-	if (FAILED(_deviceContext->Map(vertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms1)))
+	if (FAILED(this->m_deviceContext->Map(this->m_vertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms1)))
 	{
 		return false;
 	}
 
 	memcpy(ms1.pData, m_vertices, sizeof(VERTEX) * m_numVertices);
 
-	_deviceContext->Unmap(vertexBuffer, NULL);
+	this->m_deviceContext->Unmap(this->m_vertexBuffer, NULL);
 #pragma endregion
 
 #pragma region Create the index buffer
-	ZeroMemory(&bufferDesc, sizeof(bufferDesc));
-	bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-	bufferDesc.ByteWidth = sizeof(DWORD) * m_numIndices;
-	bufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	bufferDesc.MiscFlags = 0;
-	if (FAILED(_pd3dDevice->CreateBuffer(&bufferDesc, NULL, &indexBuffer)))
+	ZeroMemory(&this->m_bufferDesc, sizeof(this->m_bufferDesc));
+	this->m_bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+	this->m_bufferDesc.ByteWidth = sizeof(DWORD) * m_numIndices;
+	this->m_bufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	this->m_bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	this->m_bufferDesc.MiscFlags = 0;
+	if (FAILED(this->m_device->CreateBuffer(&this->m_bufferDesc, NULL, &this->m_indexBuffer)))
 	{
 		return false;
 	}
-	_deviceContext->Map(indexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms1);
+	this->m_deviceContext->Map(this->m_indexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms1);
 	memcpy(ms1.pData, m_indices, sizeof(DWORD) * m_numIndices);
-	_deviceContext->Unmap(indexBuffer, NULL);
+	this->m_deviceContext->Unmap(this->m_indexBuffer, NULL);
 #pragma endregion
 
 
 #pragma region Create constant buffer
-	ZeroMemory(&bufferDesc, sizeof(bufferDesc));
-	bufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	bufferDesc.ByteWidth = sizeof(CBUFFER);
-	bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	if (FAILED(_pd3dDevice->CreateBuffer(&bufferDesc, NULL, &constantBuffer)))
+	ZeroMemory(&this->m_bufferDesc, sizeof(this->m_bufferDesc));
+	this->m_bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	this->m_bufferDesc.ByteWidth = sizeof(CBUFFER);
+	this->m_bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	if (FAILED(this->m_device->CreateBuffer(&this->m_bufferDesc, NULL, &this->m_constantBuffer)))
 	{
 		return false;
 	}

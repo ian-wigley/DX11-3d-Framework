@@ -72,46 +72,42 @@ Tank::Tank(void)
 //-----------------------------------------------------------------------------
 Tank::Tank(wstring name, Framework* frame, float x, float z, FrameWorkResourceManager* frameResourcesManager)
 {
-//	XMMATRIX Identity(&_worldMatrix);
-//	XMMATRIX Identity(_worldMatrix);
 	_thirdPerson = false;
 	_fire = false;
 	_scale = 0.5f;
 	_angle = 0;
-	_x = x;
-	_y = 0;
-	_z = z;
+	this->m_x = x;
+	this->m_y = 0;
+	this->m_z = z;
 	_terrainExtent = 1260.0f;
 	_name = name;
 	_frame = frame;
-//	_texture = NULL;
+	//	_texture = NULL;
 	_collsion = false;
 	_delete = false;
-////	_pd3dDevice = _frame->GetDirect3dDevice();
 
-	_pd3dDevice = _frame->GetDirectDevice();
-	_deviceContext = _frame->GetDirectDeviceContext();
+	this->m_device = _frame->GetDirectDevice();
+	this->m_deviceContext = _frame->GetDirectDeviceContext();
 
-//	_sGraph =_frame->GetSceneGraph();
-//	_renderCam = _frame->GetCamera();
-//
-//	_bulletCount = 0;
-//
-// 	_cameraSpeed = 10.0f;
-//	_yaw = 0.0f;					// Degrees of yaw (in radians)
-//	_pitch = 0.0f;					// Degrees of pitch (in radians)
-//	_roll = 0.0f;
-//
-//	_terrainNode = _frame->GetTerrain();
-//
-//	// Get the height of the terrain at x, z
-////	_y = _terrainNode->GetHeight(_x, _z);////////////////////////////////////////////////////////
-//
-////	_position = XMVECTOR(_x, _y, _z);
-//
+	//	_sGraph =_frame->GetSceneGraph();
+	//	_renderCam = _frame->GetCamera();
+	//
+	//	_bulletCount = 0;
+	//
+	// 	_cameraSpeed = 10.0f;
+	//	_yaw = 0.0f;					// Degrees of yaw (in radians)
+	//	_pitch = 0.0f;					// Degrees of pitch (in radians)
+	//	_roll = 0.0f;
+	//
+	//	_terrainNode = _frame->GetTerrain();
+	//
+	//	// Get the height of the terrain at x, z
+	////	_y = _terrainNode->GetHeight(_x, _z);
+	//
+	////	_position = XMVECTOR(_x, _y, _z);
+	//
 	_frameWorkResourcesManager = frameResourcesManager;
-	//const aiScene* mesh = _frameWorkResourcesManager->LoadAsset("Tiger.x");
-	//aiScene* mesh = _frameWorkResourcesManager->LoadAsset("Tiger.obj");
+
 	_frameWorkResourcesManager->LoadAsset("Tiger.x");
 
 	// Get the mesh stuff from the model
@@ -119,40 +115,37 @@ Tank::Tank(wstring name, Framework* frame, float x, float z, FrameWorkResourceMa
 
 	InitialiseTank();
 
-	projectionTransformation = XMMatrixPerspectiveFovLH(XM_PIDIV4, 1.28f, 0.1f, 1500.0f);
-	_worldTransformation = XMMatrixTranslation(0.0f, 20.0f, 0.0f);// XMMatrixIdentity();_worldTransformation = XMMatrixIdentity();
-	_scalingMatrix = XMMatrixScaling(0.5f, 0.5f, 0.05);
+	this->m_projectionTransformation = XMMatrixPerspectiveFovLH(XM_PIDIV4, 1.28f, 0.1f, 1500.0f);
+	this->m_worldTransformation = XMMatrixTranslation(0.0f, 20.0f, 0.0f);
+	this->m_scalingMatrix = XMMatrixScaling(0.5f, 0.5f, 0.5f);
 
-
-
-
-////	_mesh = _frameWorkResourcesManager->GetMesh(L"Tiger.x", false);
-////	_texture = _frameWorkResourcesManager->GetTexture(L"Tiger.x");
-////	_material = _frameWorkResourcesManager->GetMaterial(L"Tiger.x");
-//
-////	_sGraph->AddNode(_boundingBox = new BoundingBox(_mesh, _pd3dDevice, _x,_y,_z, L"boundingBox", _scale),L"Parent");
-//
-//	// Get the 4 vectors
-//	_tankFrontLeftPos = _boundingBox->GetFrontLeftVector();
-//	_tankFrontMidPos = _boundingBox->GetFrontMidVector();
-//	_tankFrontRightPos = _boundingBox->GetFrontRightVector();
-//	_tankRearMidPos = _boundingBox->GetRearMidVector();
-//
-//	// Calculate the Hypotenuse values
-////	_xHypotenuse =  _tankFrontLeftPos.x - _tankFrontRightPos.x ;
-////	_zHypotenuse =  _tankRearMidPos.z - _tankFrontMidPos.z;
-//
-//	//D3DXFONT_DESC fontDesc;
-//	//fontDesc.Height          = 22;
-// //   fontDesc.Width           = 0;
-// //   fontDesc.Weight          = FW_BOLD;
-// //   fontDesc.MipLevels       = 1;
-// //   fontDesc.Italic          = false;
-// //   fontDesc.CharSet         = DEFAULT_CHARSET;
-// //   fontDesc.OutputPrecision = OUT_DEFAULT_PRECIS;
-// //   fontDesc.Quality         = DEFAULT_QUALITY;
-// //   fontDesc.PitchAndFamily  = DEFAULT_PITCH | FF_DONTCARE;
-////	D3DXCreateFontIndirect(_pd3dDevice, &fontDesc, &mFont);
+	////	_mesh = _frameWorkResourcesManager->GetMesh(L"Tiger.x", false);
+	////	_texture = _frameWorkResourcesManager->GetTexture(L"Tiger.x");
+	////	_material = _frameWorkResourcesManager->GetMaterial(L"Tiger.x");
+	//
+	////	_sGraph->AddNode(_boundingBox = new BoundingBox(_mesh, _pd3dDevice, _x,_y,_z, L"boundingBox", _scale),L"Parent");
+	//
+	//	// Get the 4 vectors
+	//	_tankFrontLeftPos = _boundingBox->GetFrontLeftVector();
+	//	_tankFrontMidPos = _boundingBox->GetFrontMidVector();
+	//	_tankFrontRightPos = _boundingBox->GetFrontRightVector();
+	//	_tankRearMidPos = _boundingBox->GetRearMidVector();
+	//
+	//	// Calculate the Hypotenuse values
+	////	_xHypotenuse =  _tankFrontLeftPos.x - _tankFrontRightPos.x ;
+	////	_zHypotenuse =  _tankRearMidPos.z - _tankFrontMidPos.z;
+	//
+	//	//D3DXFONT_DESC fontDesc;
+	//	//fontDesc.Height          = 22;
+	// //   fontDesc.Width           = 0;
+	// //   fontDesc.Weight          = FW_BOLD;
+	// //   fontDesc.MipLevels       = 1;
+	// //   fontDesc.Italic          = false;
+	// //   fontDesc.CharSet         = DEFAULT_CHARSET;
+	// //   fontDesc.OutputPrecision = OUT_DEFAULT_PRECIS;
+	// //   fontDesc.Quality         = DEFAULT_QUALITY;
+	// //   fontDesc.PitchAndFamily  = DEFAULT_PITCH | FF_DONTCARE;
+	////	D3DXCreateFontIndirect(_pd3dDevice, &fontDesc, &mFont);
 }
 
 //-----------------------------------------------------------------------------
@@ -185,8 +178,6 @@ void Tank::Shutdown(void)
 	}
 	*/
 }
-
-
 
 HRESULT Tank::InitialiseTank(void)
 {
@@ -238,7 +229,7 @@ HRESULT Tank::InitialiseTank(void)
 #pragma region Load texture from file
 
 	// Load a DDS texture
-	if (FAILED(CreateDDSTextureFromFile(_pd3dDevice, L"triax_tracks.dds", nullptr, &_texture)))
+	if (FAILED(CreateDDSTextureFromFile(this->m_device, L"triax_tracks.dds", nullptr, &_texture)))
 	{
 		return S_OK;
 	}
@@ -251,13 +242,13 @@ HRESULT Tank::InitialiseTank(void)
 	//rd.AntialiasedLineEnable = false;
 //	rd.CullMode = D3D11_CULL_NONE;// BACK;
 	rd.CullMode = D3D11_CULL_BACK;
-//	rd.CullMode = D3D11_CULL_FRONT;
-	//rd.FrontCounterClockwise = false;
+	//	rd.CullMode = D3D11_CULL_FRONT;
+		//rd.FrontCounterClockwise = false;
 	rd.FrontCounterClockwise = true;
 	//rd.FillMode = D3D11_FILL_WIREFRAME;
 	rd.FillMode = D3D11_FILL_SOLID;
-	_pd3dDevice->CreateRasterizerState(&rd, &pRSWireFrame1);
-	_deviceContext->RSSetState(pRSWireFrame1);
+	this->m_device->CreateRasterizerState(&rd, &pRSWireFrame1);
+	this->m_deviceContext->RSSetState(pRSWireFrame1);
 
 	return S_OK;
 }
@@ -286,7 +277,7 @@ HRESULT Tank::Render(void)
 	_worldMatrix._42 = -D3DXVec3Dot(&_position, &_up);
 	_worldMatrix._43 = -D3DXVec3Dot(&_position, &_lookAt);
 
-    XMMATRIXRotationX(&_rotationMatrixX, _roll);
+	XMMATRIXRotationX(&_rotationMatrixX, _roll);
 	XMMATRIXRotationY(&_rotationMatrixY, _angle);
 	XMMATRIXRotationZ(&_rotationMatrixZ, _pitch);
 
@@ -322,36 +313,30 @@ HRESULT Tank::Render(void)
 
 	XMMATRIX viewTransformation = _camRender->GetViewMatrix();
 
-	XMMATRIX completeTransformation = _scalingMatrix * /* _rotation **/  _worldTransformation * viewTransformation * projectionTransformation;
+	XMMATRIX completeTransformation = this->m_scalingMatrix * this->m_worldTransformation * viewTransformation * this->m_projectionTransformation;
 
 	CBUFFER cBuffer;
 	cBuffer.LightVector = XMVector4Normalize(XMVectorSet(1.0f, 0.0f, 1.0f, 0.0f));
 	cBuffer.LightColor = XMFLOAT4(0.75f, 0.75f, 0.75f, 1.0f);
 	cBuffer.AmbientColor = XMFLOAT4(0.44f, 0.57f, 0.74f, 1.0f);
 	cBuffer.CompleteTransformation = completeTransformation;
-	cBuffer.WorldTransformation = _worldTransformation;
-
+	cBuffer.WorldTransformation = this->m_worldTransformation;
 
 	// Update the constant buffer with the complete transformation
-	_deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
-	_deviceContext->UpdateSubresource(constantBuffer, 0, 0, &cBuffer, 0, 0);
+	this->m_deviceContext->VSSetConstantBuffers(0, 1, &this->m_constantBuffer);
+	this->m_deviceContext->UpdateSubresource(this->m_constantBuffer, 0, 0, &cBuffer, 0, 0);
 
 	// Set the texture to be used by the pixel shader
-	_deviceContext->PSSetShaderResources(0, 1, &_texture);
-
+	this->m_deviceContext->PSSetShaderResources(0, 1, &_texture);
 
 	UINT stride = sizeof(VERTEX);
 	UINT offset = 0;
-	_deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
-	_deviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-
-	_deviceContext->RSSetState(NULL);
-	_deviceContext->RSSetState(pRSWireFrame1);
-
-	_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	_deviceContext->DrawIndexed(m_numIndices, 0, 0);
-
+	this->m_deviceContext->IASetVertexBuffers(0, 1, &this->m_vertexBuffer, &stride, &offset);
+	this->m_deviceContext->IASetIndexBuffer(this->m_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+	this->m_deviceContext->RSSetState(NULL);
+	this->m_deviceContext->RSSetState(pRSWireFrame1);
+	this->m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	this->m_deviceContext->DrawIndexed(m_numIndices, 0, 0);
 
 	return S_OK;
 }
@@ -383,7 +368,7 @@ void Tank::Update(void)
 	D3DXVec3TransformCoord(&_up, &_up, &rollMatrix);
 
 	// Calculate the opposite length for s=o/h required for the roll calculation
-	_xOpposite = _terrainNode->GetHeight(_tankFrontLeftPos.x + _position.x, _tankFrontLeftPos.z + _position.z) - 
+	_xOpposite = _terrainNode->GetHeight(_tankFrontLeftPos.x + _position.x, _tankFrontLeftPos.z + _position.z) -
 				_terrainNode->GetHeight(_tankFrontRightPos.x + _position.x, _tankFrontRightPos.z + _position.z);
 
 	CalculatePitch(_zOpposite, _zHypotenuse);
@@ -406,10 +391,9 @@ void Tank::FireBullet(void)
 	_bulletCount++;
 	wstringstream streamVal;
 	streamVal << _bulletCount;
-	wstring _bulletName = L"BulletNode"+ streamVal.str();
-//	_sGraph->AddNode(_bullet = new BulletNode(_bulletName, _frame, _position, _angle, _frameWorkResourcesManager),L"Parent");
+	wstring _bulletName = L"BulletNode" + streamVal.str();
+	//	_sGraph->AddNode(_bullet = new BulletNode(_bulletName, _frame, _position, _angle, _frameWorkResourcesManager),L"Parent");
 }
-
 
 //-----------------------------------------------------------------------------
 // Name: MoveForward()
@@ -465,7 +449,7 @@ void Tank::Yaw(float amountOfMovement)
 //-----------------------------------------------------------------------------
 void Tank::CalculateRoll(float xOpposite, float xHypotenuse)
 {
-	_roll = sin(xOpposite/xHypotenuse);
+	_roll = sin(xOpposite / xHypotenuse);
 }
 
 //-----------------------------------------------------------------------------
@@ -474,7 +458,7 @@ void Tank::CalculateRoll(float xOpposite, float xHypotenuse)
 //-----------------------------------------------------------------------------
 void Tank::CalculatePitch(float zOpposite, float zHypotenuse)
 {
-	_pitch = sin(zOpposite/zHypotenuse);
+	_pitch = sin(zOpposite / zHypotenuse);
 }
 
 //-----------------------------------------------------------------------------
@@ -483,7 +467,7 @@ void Tank::CalculatePitch(float zOpposite, float zHypotenuse)
 //-----------------------------------------------------------------------------
 void Tank::SetPosition(XMVECTOR distance)
 {
-//	_position += distance;
+	//	_position += distance;
 }
 
 //-----------------------------------------------------------------------------

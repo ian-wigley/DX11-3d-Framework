@@ -1,7 +1,6 @@
 //-----------------------------------------------------------------------------
 // File: Tree.cpp
 // Description : This Class managers the Tree
-
 //-----------------------------------------------------------------------------
 
 #include "Tree.h"
@@ -23,9 +22,9 @@ Tree::Tree(wstring name, Framework* frame, float x, float z, FrameWorkResourceMa
 //	_material = _frameWorkResourcesManager->GetMaterial(L"Tree.x");
 	_numberOfMaterials = _frameWorkResourcesManager->GetNumberOfMaterials();
 	_delete = false;
-	_x = x;
-	_z = z;
-	_y = _terrainNode->GetHeight(_x, _z) + 20.0f;
+	this->m_x = x;
+	this->m_z = z;
+	this->m_y = _terrainNode->GetHeight(this->m_x, this->m_z) + 20.0f;
 }
 
 Tree::~Tree(void)

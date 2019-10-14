@@ -95,8 +95,10 @@ private:
 		initData.pSysMem = &indices[0];
 
 		hr = dev->CreateBuffer(&ibd, &initData, &IndexBuffer);
-		if (FAILED(hr))
+		if (FAILED(hr)) {
 			return false;
+		}
+		return true;
 	}
 };
 

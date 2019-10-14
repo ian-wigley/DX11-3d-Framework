@@ -5,36 +5,6 @@
 
 #include "TerrainNode.h"
 
-float degrees = 0;
-
-//// Describe the Vertex Buffers format that is being passed to the shader GPU
-//D3D11_INPUT_ELEMENT_DESC ied[] =
-//{
-//	{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-//	{"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
-//	{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}
-//};
-//
-D3D11_INPUT_ELEMENT_DESC polygonLayout[3];
-
-
-//// The format of our vertices
-//struct VERTEX
-//{
-//	XMFLOAT3 Position;  // position
-//	XMFLOAT3 Normal;    // normal
-//	XMFLOAT2 TexCoord;   // Texture UV Coordinates
-//};
-
-
-VERTEX* modelVertices;
-VERTEX* currentVertex;
-unsigned int* modelIndices;
-unsigned int* currentIndex;
-
-ID3D11RasterizerState* pRSWireFrame;
-D3D11_RASTERIZER_DESC RSWireFrameDesc;
-
 //-----------------------------------------------------------------------------
 // Name: TerrainNode()
 // Desc: TerrainNode Class Constructor
@@ -57,9 +27,9 @@ TerrainNode::TerrainNode(void)
 //-----------------------------------------------------------------------------
 TerrainNode::TerrainNode(wstring name, Framework *_frame, FrameWorkResourceManager* frameResourcesManager)
 {
-	_x = 0.0f;
-	_y = 0.0f;
-	_z = 0.0f;
+	this->m_x = 0.0f;
+	this->m_y = 0.0f;
+	this->m_z = 0.0f;
 
 	_v0 = 0.0f;
 	_delete = false;
@@ -79,11 +49,11 @@ TerrainNode::TerrainNode(wstring name, Framework *_frame, FrameWorkResourceManag
 
 	_hWnd = _frame->GetHandle();
 
-	_device = _frame->GetDirectDevice();
-	_deviceContext = _frame->GetDirectDeviceContext();
-	_swapChain = _frame->GetSwapChain();
-	_renderTarget = _frame->GetRenderTarget();
-	_zBuffer = _frame->GetStencilBuffer();
+	this->m_device = _frame->GetDirectDevice();
+	this->m_deviceContext = _frame->GetDirectDeviceContext();
+	this->m_swapChain = _frame->GetSwapChain();
+	this->m_renderTarget = _frame->GetRenderTarget();
+	this->m_zBuffer = _frame->GetStencilBuffer();
 
 	vsBlob = NULL;
 	psBlob = NULL;
@@ -101,36 +71,15 @@ TerrainNode::TerrainNode(wstring name, Framework *_frame, FrameWorkResourceManag
 	currentIndex = modelIndices;
 
 	_viewTransformation = XMMatrixIdentity();
-	_projectionTransformation = XMMatrixIdentity();
-	////_worldTransformation = XMMatrixTransformation( XMMatrixIdentity();
 
-	_worldTransformation = XMMatrixIdentity();
-	_worldTransformation = XMMatrixRotationZ(XMConvertToRadians(180));
-	//
-	//
-	//
+	this->m_worldTransformation = XMMatrixRotationZ(XMConvertToRadians(180));
 	_completeTransformation = XMMatrixIdentity();
-	//
 	_ambientLightColour = XMFLOAT4(1.5f, 0.5f, 0.5f, 1.0f);
 	_directionalLightColour = XMFLOAT4(1.0f, 1.0, 1.0f, 1.0f);
 	_directionalLightVector = XMVector4Normalize(XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f));
 
-
 	//http://www.rastertek.com/dx11s2tut03.html
-////	_projectionTransformation = XMMatrixPerspectiveFovLH(XM_PIDIV4, 1.0f, 1.0f, 1500.0f);
-	_projectionTransformation = XMMatrixPerspectiveFovLH(XM_PIDIV4, 1.28f, 0.1f, 1500.0f);
-
-
-
-	// Wooden box example
-////	_viewTransformation = XMMatrixLookAtLH(XMVectorSet(0.0f, 3.0f, -10.0f, 0.0),
-////										XMVectorSet(0.0f, 0.0f, 0.0f, 0.0),
-////										XMVectorSet(0.0f, 1.0f, 0.0f, 0.0));
-//
-//	_viewMatrix = XMMatrixLookAtLH(XMVectorSet(0.0f, 2.0f, 0.0f, 0.0),
-//		XMVectorSet(0.0f, 0.0f, 0.0f, 0.0),
-//		XMVectorSet(0.0f, 1.0f, 0.0f, 0.0));
-
+	this->m_projectionTransformation = XMMatrixPerspectiveFovLH(XM_PIDIV4, 1.28f, 0.1f, 1500.0f);
 
 	// Create the vertex input layout description.
 	polygonLayout[0].SemanticName = "POSITION";
@@ -157,10 +106,7 @@ TerrainNode::TerrainNode(wstring name, Framework *_frame, FrameWorkResourceManag
 	polygonLayout[2].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 	polygonLayout[2].InstanceDataStepRate = 0;
 
-
 	_frameWorkResourcesManager = frameResourcesManager;
-	//	_frameWorkResourcesManager->SetTexture(L"volcano.bmp");
-	//	_texture = _frameWorkResourcesManager->GetTexture(L"volcano.bmp");
 	_heights = _frameWorkResourcesManager->LoadHeightMap(L"volcano.raw", _gridSize);
 	GenerateVertices();
 	GenerateIndices();
@@ -176,7 +122,7 @@ TerrainNode::TerrainNode(wstring name, Framework *_frame, FrameWorkResourceManag
 //-----------------------------------------------------------------------------
 TerrainNode::~TerrainNode(void)
 {
-	//Shutdown();
+	Shutdown();
 }
 
 //-----------------------------------------------------------------------------
@@ -212,39 +158,6 @@ void TerrainNode::Shutdown(void)
 //-----------------------------------------------------------------------------
 HRESULT TerrainNode::InitialiseShaders(void)
 {
-	D3D11_BUFFER_DESC bufferDesc;
-	D3D11_MAPPED_SUBRESOURCE ms;
-
-	D3D11_SAMPLER_DESC samplerDesc;
-	D3D11_BUFFER_DESC matrixBufferDesc;
-	D3D11_BUFFER_DESC lightBufferDesc;
-
-//#pragma region Compile and set vertex shader
-//	//if (FAILED(D3DCompileFromFile(L"TerrainShader.hlsl", 0, 0, "VShader", "vs_4_0", 0, 0, &vsBlob, 0)))
-//	if (FAILED(D3DCompileFromFile(L"TerrainShader.hlsl", 0, 0, "main", "vs_4_0", 0, 0, &vsBlob, 0)))
-//	//if (FAILED(D3DCompileFromFile(L"terrain.vs", 0, 0, "TerrainVertexShader", "vs_4_0", 0, 0, &vsBlob, 0)))
-//	{
-//		return false;
-//	}
-//	if (FAILED(_device->CreateVertexShader(vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), NULL, &vertexShader)))
-//	{
-//		return false;
-//	}
-//	_deviceContext->VSSetShader(vertexShader, 0, 0);
-//#pragma endregion
-//
-//#pragma region Compile and set pixel shader
-//	if (FAILED(D3DCompileFromFile(L"TerrainShader.hlsl", 0, 0, "PShader", "ps_4_0", 0, 0, &psBlob, 0)))
-//	//if (FAILED(D3DCompileFromFile(L"terrain.ps", 0, 0, "TerrainPixelShader", "ps_4_0", 0, 0, &psBlob, 0)))
-//	{
-//		return false;
-//	}
-//	if (FAILED(_device->CreatePixelShader(psBlob->GetBufferPointer(), psBlob->GetBufferSize(), NULL, &pixelShader)))
-//	{
-//		return false;
-//	}
-//	_deviceContext->PSSetShader(pixelShader, 0, 0);
-//#pragma endregion
 
 #pragma region Set up vertex buffer
 	ZeroMemory(&bufferDesc, sizeof(bufferDesc));
@@ -252,27 +165,19 @@ HRESULT TerrainNode::InitialiseShaders(void)
 	bufferDesc.ByteWidth = sizeof(VERTEX) * _numVertices;
 	bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	if (FAILED(_device->CreateBuffer(&bufferDesc, NULL, &vertexBuffer)))
+	if (FAILED(this->m_device->CreateBuffer(&bufferDesc, NULL, &vertexBuffer)))
 	{
 		return false;
 	}
 	// Copy vertices to the vertex buffer
-	if (FAILED(_deviceContext->Map(vertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms)))
+	if (FAILED(this->m_deviceContext->Map(vertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms)))
 	{
 		return false;
 	}
 	memcpy(ms.pData, modelVertices, sizeof(VERTEX) * _numVertices);
 
-	_deviceContext->Unmap(vertexBuffer, NULL);
+	this->m_deviceContext->Unmap(vertexBuffer, NULL);
 #pragma endregion
-
-//#pragma region Specify input element format of data passed to vertex shader
-//	if (FAILED(_device->CreateInputLayout(ied, ARRAYSIZE(ied), vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &layout)))
-//	{
-//		return false;
-//	}
-//	_deviceContext->IASetInputLayout(layout);
-//#pragma endregion
 
 #pragma region Create the index buffer
 	ZeroMemory(&bufferDesc, sizeof(bufferDesc));
@@ -281,13 +186,13 @@ HRESULT TerrainNode::InitialiseShaders(void)
 	bufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	bufferDesc.MiscFlags = 0;
-	if (FAILED(_device->CreateBuffer(&bufferDesc, NULL, &indexBuffer)))
+	if (FAILED(this->m_device->CreateBuffer(&bufferDesc, NULL, &indexBuffer)))
 	{
 		return false;
 	}
-	_deviceContext->Map(indexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);
+	this->m_deviceContext->Map(indexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);
 	memcpy(ms.pData, modelIndices, sizeof(DWORD) * _numIndices);
-	_deviceContext->Unmap(indexBuffer, NULL);
+	this->m_deviceContext->Unmap(indexBuffer, NULL);
 #pragma endregion
 
 #pragma region Create constant buffer
@@ -295,7 +200,7 @@ HRESULT TerrainNode::InitialiseShaders(void)
 	bufferDesc.Usage = D3D11_USAGE_DEFAULT;
 	bufferDesc.ByteWidth = sizeof(CBUFFER);
 	bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	if (FAILED(_device->CreateBuffer(&bufferDesc, NULL, &constantBuffer)))
+	if (FAILED(this->m_device->CreateBuffer(&bufferDesc, NULL, &constantBuffer)))
 	{
 		return false;
 	}
@@ -311,7 +216,7 @@ HRESULT TerrainNode::InitialiseShaders(void)
 	lightBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	lightBufferDesc.MiscFlags = 0;
 	lightBufferDesc.StructureByteStride = 0;
-	if (FAILED(_device->CreateBuffer(&lightBufferDesc, NULL, &m_lightBuffer)))
+	if (FAILED(this->m_device->CreateBuffer(&lightBufferDesc, NULL, &m_lightBuffer)))
 	{
 		return false;
 	}
@@ -325,18 +230,16 @@ HRESULT TerrainNode::InitialiseShaders(void)
 	matrixBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	matrixBufferDesc.MiscFlags = 0;
 	matrixBufferDesc.StructureByteStride = 0;
-	if (FAILED(_device->CreateBuffer(&matrixBufferDesc, NULL, &m_matrixBuffer)))
+	if (FAILED(this->m_device->CreateBuffer(&matrixBufferDesc, NULL, &m_matrixBuffer)))
 	{
 		return false;
 	}
 #pragma endregion
 
-
-
 #pragma region Load texture from file
 
 	// Load a DDS texture
-	if (FAILED(CreateDDSTextureFromFile(_device, L"volcano.dds", nullptr, &_texture)))
+	if (FAILED(CreateDDSTextureFromFile(this->m_device, L"volcano.dds", nullptr, &this->m_texture)))
 	{
 		return S_OK;
 	}
@@ -358,22 +261,17 @@ HRESULT TerrainNode::InitialiseShaders(void)
 	SamDesc.BorderColor[0] = SamDesc.BorderColor[1] = SamDesc.BorderColor[2] = SamDesc.BorderColor[3] = 0;
 	SamDesc.MinLOD = 0;
 	SamDesc.MaxLOD = D3D11_FLOAT32_MAX;
-	_device->CreateSamplerState(&SamDesc, &g_pSamLinear);
-
+	this->m_device->CreateSamplerState(&SamDesc, &g_pSamLinear);
 
 	// Set the rasterizer state
 	D3D11_RASTERIZER_DESC rd;
 	ZeroMemory(&rd, sizeof(rd));
 	//rd.AntialiasedLineEnable = false;
-//	rd.CullMode = D3D11_CULL_NONE;// BACK;
-//	rd.CullMode = D3D11_CULL_BACK;
 	rd.CullMode = D3D11_CULL_FRONT;
 	rd.FrontCounterClockwise = false;
-	//rd.FrontCounterClockwise = true;
 	rd.FillMode = D3D11_FILL_WIREFRAME;
-//	rd.FillMode = D3D11_FILL_SOLID;
-	_device->CreateRasterizerState(&rd, &pRSWireFrame);
-	_deviceContext->RSSetState(pRSWireFrame);
+	this->m_device->CreateRasterizerState(&rd, &this->m_wireFrame);
+	this->m_deviceContext->RSSetState(this->m_wireFrame);
 	return S_OK;
 }
 
@@ -478,7 +376,6 @@ void TerrainNode::CalculateVertexNormals(void)
 		vertexContributingCount[index2]++;
 	}
 
-
 	// Now divide the vertex normals by the contributing counts and normalise
 	for (unsigned int i = 0; i < _numVertices; i++)
 	{
@@ -494,44 +391,37 @@ void TerrainNode::CalculateVertexNormals(void)
 HRESULT TerrainNode::Render(void)
 {
 	// Clear the depth buffer
-	_deviceContext->ClearDepthStencilView(_zBuffer, D3D11_CLEAR_DEPTH, 1.0f, 0);
+	this->m_deviceContext->ClearDepthStencilView(this->m_zBuffer, D3D11_CLEAR_DEPTH, 1.0f, 0);
 
 	_viewTransformation = _camRender->GetViewMatrix();
 
-	//XMMATRIXTranslation(&_translationMatrix, _position.x, _position.y, _position.z);
+	//XMMATRIX _translationMatrix = XMMatrixIdentity();
 
-	XMMATRIX _translationMatrix = XMMatrixIdentity();// XMMatrixTranslation(1.0f, 0.0f, 0.0f);
-
-	//_completeTransformation = _worldTransformation  * _translationMatrix * _viewTransformation * _projectionTransformation;
-	_completeTransformation = _worldTransformation * _viewTransformation * _projectionTransformation;
+	_completeTransformation = this->m_worldTransformation * _viewTransformation * this->m_projectionTransformation;
 
 	// Update the cBuffer in the shader
 	cBuffer.LightVector = _directionalLightVector;
 	cBuffer.LightColor = _directionalLightColour;
 	cBuffer.AmbientColor = _ambientLightColour;
 	cBuffer.CompleteTransformation = _completeTransformation;
-	cBuffer.Rotation = _worldTransformation;
+	cBuffer.Rotation = this->m_worldTransformation;
 
 	// Update the constant buffer with the complete transformation
-	_deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
-	_deviceContext->UpdateSubresource(constantBuffer, 0, 0, &cBuffer, 0, 0);
+	this->m_deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
+	this->m_deviceContext->UpdateSubresource(constantBuffer, 0, 0, &cBuffer, 0, 0);
 
 	// Set the texture to be used by the pixel shader
-	_deviceContext->PSSetShaderResources(0, 1, &_texture);
-	_deviceContext->PSSetSamplers(0, 1, &g_pSamLinear);
-
+	this->m_deviceContext->PSSetShaderResources(0, 1, &this->m_texture);
+	this->m_deviceContext->PSSetSamplers(0, 1, &g_pSamLinear);
 
 	UINT stride = sizeof(VERTEX);
 	UINT offset = 0;
-	_deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
-	_deviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-
-	_deviceContext->RSSetState(NULL);
-	_deviceContext->RSSetState(pRSWireFrame);
-
-	_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	_deviceContext->DrawIndexed(_numIndices, 0, 0);
+	this->m_deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+	this->m_deviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+	this->m_deviceContext->RSSetState(NULL);
+	this->m_deviceContext->RSSetState(this->m_wireFrame);
+	this->m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	this->m_deviceContext->DrawIndexed(_numIndices, 0, 0);
 
 	return S_OK;
 }
@@ -643,13 +533,3 @@ float TerrainNode::GetHeight(float x, float z)
 
 	return _point.y = _v0 + ((Nx * _dx) + (Nz * _dz) / -Ny);
 }
-
-//TerrainNode::CBUFFER* TerrainNode::GetCbuffer(void)
-//{
-//	return &this->cBuffer;
-//}
-//
-//ID3D11Buffer* TerrainNode::GetConstBuffer(void)const
-//{
-//	return constantBuffer;
-//}

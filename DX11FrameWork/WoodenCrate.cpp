@@ -1,7 +1,6 @@
 //-----------------------------------------------------------------------------
 // File: WoodenCrate.cpp
 // Description : This Class managers the WoodenCrate
-
 //-----------------------------------------------------------------------------
 
 #include "WoodenCrate.h"
@@ -55,18 +54,6 @@ DWORD cubeIndices[] =
 	22, 21, 23,
 };
 
-//UINT _numIndices;
-//UINT m_numVertices = 24*3;
-ID3D11Buffer* vertexBuffer;
-ID3D11Buffer* indexBuffer;
-ID3D11Buffer* constantBuffer;
-D3D11_MAPPED_SUBRESOURCE ms1;
-//VERTEX1* modelVertices1;
-ID3D11Device* _pd3dDevice;
-ID3D11RasterizerState* pRSWireFrame1;
-ID3D11DepthStencilView*	_zBuffer;
-ID3D11ShaderResourceView* _texture;
-
 //-----------------------------------------------------------------------------
 // Name: Constructor()
 // Desc: Creates the Wooden Crate
@@ -81,40 +68,24 @@ WoodenCrate::WoodenCrate(void)
 //-----------------------------------------------------------------------------
 WoodenCrate::WoodenCrate(wstring name, Framework *_frame, float x, float z, FrameWorkResourceManager* _frameResourcesManager)
 {
-	_x = x;
-	_y = 0;
-	_z = z;
+	this->m_x = x;
+	this->m_y = 0;
+	this->m_z = z;
 	_name = name;
-//	_texture = NULL;
 	_scale = 1.0f;
-	_pd3dDevice = _frame->GetDirectDevice();
-	_deviceContext = _frame->GetDirectDeviceContext();
-	_zBuffer = _frame->GetStencilBuffer();
-
-
-	_sGraph =_frame->GetSceneGraph();
+	this->m_device = _frame->GetDirectDevice();
+	this->m_deviceContext = _frame->GetDirectDeviceContext();
+	this->m_zBuffer = _frame->GetStencilBuffer();
+	_sGraph = _frame->GetSceneGraph();
 	_delete = false;
 	_frameWorkResourcesManager = _frameResourcesManager;
-//	_frameWorkResourcesManager->SetTexture(L"woodbox.bmp");
 	_terrainNode = _frame->GetTerrain();
-	_y = 5;// _terrainNode->GetHeight(_x, _z) + 5.0f;
-
-
-
-
+	this->m_y = 5;// _terrainNode->GetHeight(_x, _z) + 5.0f;
 	InitialiseCrate();
-
-
-	//XMMATRIX projectionTransformation = XMMatrixPerspectiveFovLH(XM_PIDIV4, 1.28f, 0.1f, 1500.0f);
-	//XMMATRIX _worldTransformation = XMMatrixIdentity(); //XMMatrixTranslation(_x = 0, 20.0f, _z = 0);
-	//XMMATRIX _scalingMatrix = XMMatrixScaling(100.0f, 100.0f, 100.0f);
-
-	projectionTransformation = XMMatrixPerspectiveFovLH(XM_PIDIV4, 1.28f, 0.1f, 1500.0f);
-	_worldTransformation = XMMatrixTranslation(100.0f, 50.0f, 0.0f);// XMMatrixIdentity();
-	_scalingMatrix = XMMatrixScaling(25.0f, 25.0f, 25.0f);
-
+	this->m_projectionTransformation = XMMatrixPerspectiveFovLH(XM_PIDIV4, 1.28f, 0.1f, 1500.0f);
+	this->m_worldTransformation = XMMatrixTranslation(100.0f, 50.0f, 0.0f);
+	this->m_scalingMatrix = XMMatrixScaling(25.0f, 25.0f, 25.0f);
 }
-
 
 //-----------------------------------------------------------------------------
 // Name: ~WoodenCrate()
@@ -125,15 +96,14 @@ WoodenCrate::~WoodenCrate(void)
 	Shutdown();
 }
 
-
 //-----------------------------------------------------------------------------
 // Name: Shutdown()
 // Desc: Deletes the objects used in the Class
 //-----------------------------------------------------------------------------
 void WoodenCrate::Shutdown(void)
 {
-//	SAFE_RELEASE(_texture);
-//	SAFE_RELEASE(_mesh);
+	SAFE_RELEASE(this->m_texture);
+	//SAFE_RELEASE(_mesh);
 }
 
 //-----------------------------------------------------------------------------
@@ -144,7 +114,6 @@ HRESULT WoodenCrate::InitialiseCrate(void)
 {
 	m_numVertices = unsigned(size(cubeVertices) * 3);
 	m_numIndices = unsigned(size(cubeIndices));
-	//modelVertices1 = new VERTEX1[m_numVertices];
 	m_vertices = cubeVertices;
 	m_indices = cubeIndices;
 
@@ -153,26 +122,20 @@ HRESULT WoodenCrate::InitialiseCrate(void)
 #pragma region Load texture from file
 
 	// Load a DDS texture
-	if (FAILED(CreateDDSTextureFromFile(_pd3dDevice, L"woodbox.dds", nullptr, &_texture)))
+	if (FAILED(CreateDDSTextureFromFile(this->m_device, L"woodbox.dds", nullptr, &this->m_texture)))
 	{
 		return S_OK;
 	}
 #pragma endregion
 
-
 	// Set the rasterizer state
 	D3D11_RASTERIZER_DESC rd;
 	ZeroMemory(&rd, sizeof(rd));
 	//rd.AntialiasedLineEnable = false;
-//	rd.CullMode = D3D11_CULL_NONE;// BACK;
 	rd.CullMode = D3D11_CULL_BACK;
-//	rd.CullMode = D3D11_CULL_FRONT;
 	rd.FrontCounterClockwise = false;
-	//rd.FrontCounterClockwise = true;
-	//rd.FillMode = D3D11_FILL_WIREFRAME;
 	rd.FillMode = D3D11_FILL_SOLID;
-	_pd3dDevice->CreateRasterizerState(&rd, &pRSWireFrame1);
-//	_deviceContext->RSSetState(pRSWireFrame1);
+	this->m_device->CreateRasterizerState(&rd, &this->m_wireFrame);
 
 	return S_OK;
 }
@@ -183,63 +146,36 @@ HRESULT WoodenCrate::InitialiseCrate(void)
 //-----------------------------------------------------------------------------
 HRESULT WoodenCrate::Render(void)
 {
-	// Clear the depth buffer
-	//_deviceContext->ClearDepthStencilView(_zBuffer, D3D11_CLEAR_DEPTH, 1.0f, 0);
-
 	XMMATRIX viewTransformation = _camRender->GetViewMatrix();
-
-	XMMATRIX completeTransformation = _scalingMatrix * /* _rotation **/  _worldTransformation * viewTransformation * projectionTransformation;
+	XMMATRIX completeTransformation = this->m_scalingMatrix * this->m_worldTransformation * viewTransformation * this->m_projectionTransformation;
 
 	CBUFFER cBuffer;
 	cBuffer.LightVector = XMVector4Normalize(XMVectorSet(1.0f, 0.0f, 1.0f, 0.0f));
 	cBuffer.LightColor = XMFLOAT4(0.75f, 0.75f, 0.75f, 1.0f);
 	cBuffer.AmbientColor = XMFLOAT4(0.44f, 0.57f, 0.74f, 1.0f);
 	cBuffer.CompleteTransformation = completeTransformation;
-	cBuffer.WorldTransformation = _worldTransformation;
-
-
-	//XMMATRIXTranslation( &_worldMatrix, _x, _y, _z);
-	//_pd3dDevice->SetTransform(D3DTS_WORLD, &_worldMatrix);
-
-	//_pd3dDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-	//
-	//// Set texture to use
-   // _pd3dDevice->SetTexture( 0, _texture );
-	//_pd3dDevice->SetMaterial(&_material);
-
- //   _pd3dDevice->SetTextureStageState( 0, D3DTSS_COLOROP, D3DTOP_MODULATE );
- //   _pd3dDevice->SetTextureStageState( 0, D3DTSS_COLORARG1, D3DTA_TEXTURE );
- //   _pd3dDevice->SetTextureStageState( 0, D3DTSS_COLORARG2, D3DTA_DIFFUSE );
-
+	cBuffer.WorldTransformation = this->m_worldTransformation;
 
 	// Update the constant buffer with the complete transformation
-	_deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
-	_deviceContext->UpdateSubresource(constantBuffer, 0, 0, &cBuffer, 0, 0);
+	this->m_deviceContext->VSSetConstantBuffers(0, 1, &this->m_constantBuffer);
+	this->m_deviceContext->UpdateSubresource(this->m_constantBuffer, 0, 0, &cBuffer, 0, 0);
 
 	// Set the texture to be used by the pixel shader
-	_deviceContext->PSSetShaderResources(0, 1, &_texture);
+	this->m_deviceContext->PSSetShaderResources(0, 1, &this->m_texture);
 	//_deviceContext->PSSetSamplers(0, 1, &g_pSamLinear);
-
 
 	UINT stride = sizeof(VERTEX);
 	UINT offset = 0;
-	_deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
-	_deviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-
-	_deviceContext->RSSetState(NULL);
-	_deviceContext->RSSetState(pRSWireFrame1);
-
-	_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	_deviceContext->DrawIndexed(m_numIndices, 0, 0);
-
-
-	// Draw the box
-	//_mesh->DrawSubset(0);
+	this->m_deviceContext->IASetVertexBuffers(0, 1, &this->m_vertexBuffer, &stride, &offset);
+	this->m_deviceContext->IASetIndexBuffer(this->m_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+	this->m_deviceContext->RSSetState(NULL);
+	this->m_deviceContext->RSSetState(this->m_wireFrame);
+	this->m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	this->m_deviceContext->DrawIndexed(m_numIndices, 0, 0);
 
 	// Update the bounding Box
 	//_boundingBox->UpdateBoundingShape(_worldMatrix);
-	
+
 	return S_OK;
 }
 
