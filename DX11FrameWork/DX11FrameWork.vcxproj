@@ -22,7 +22,7 @@
     <ProjectGuid>{5DB6D509-ADE5-4FC9-84A0-1F28CD97DEAA}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>DX11FrameWork</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -69,8 +69,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(DXSDK_DIR)Include;$(SolutionDir)\ExternalLibraries\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(SolutionDir)\ExternalLibraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -90,11 +90,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)/ExternalLibraries/include/assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;assimp-vc141-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/ExternalLibraries/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -162,15 +164,18 @@
     <ClCompile Include="FrameWorkResourceManager.cpp" />
     <ClCompile Include="FrameWorkTest.cpp" />
     <ClCompile Include="GamePadController.cpp" />
+    <ClCompile Include="GeometryHelper.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SceneGraph.cpp" />
     <ClCompile Include="SceneNode.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SkyDome.cpp" />
     <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="SpriteBatch.cpp" />
     <ClCompile Include="Tank.cpp" />
     <ClCompile Include="TerrainNode.cpp" />
+    <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="Tree.cpp" />
     <ClCompile Include="ViewMatrixCode.cpp" />
     <ClCompile Include="WoodenCrate.cpp" />
@@ -192,19 +197,30 @@
     <ClInclude Include="FrameWorkResourceManager.h" />
     <ClInclude Include="FrameWorkTest.h" />
     <ClInclude Include="GamePadController.h" />
+    <ClInclude Include="GeometryHelper.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SceneGraph.h" />
     <ClInclude Include="SceneNode.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="SkyDome.h" />
     <ClInclude Include="SpotLight.h" />
     <ClInclude Include="SpriteBatch.h" />
     <ClInclude Include="Tank.h" />
     <ClInclude Include="TerrainNode.h" />
+    <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="ViewMatrixCode.h" />
     <ClInclude Include="WoodenCrate.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="TerrainShader.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="terrain.ps" />
+    <None Include="terrain.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

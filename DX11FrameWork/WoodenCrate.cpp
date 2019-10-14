@@ -169,8 +169,8 @@ HRESULT WoodenCrate::InitialiseCrate(void)
 //	rd.CullMode = D3D11_CULL_FRONT;
 	rd.FrontCounterClockwise = false;
 	//rd.FrontCounterClockwise = true;
-	rd.FillMode = D3D11_FILL_WIREFRAME;
-	//rd.FillMode = D3D11_FILL_SOLID;
+	//rd.FillMode = D3D11_FILL_WIREFRAME;
+	rd.FillMode = D3D11_FILL_SOLID;
 	_pd3dDevice->CreateRasterizerState(&rd, &pRSWireFrame1);
 //	_deviceContext->RSSetState(pRSWireFrame1);
 

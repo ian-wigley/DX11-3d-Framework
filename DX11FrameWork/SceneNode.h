@@ -1,4 +1,5 @@
 #include <Windows.h>
+
 #include <vector>
 
 // DirectX include files - Make sure that $(DSSDK_DIR)Include is on the VC++ Directories Include path
