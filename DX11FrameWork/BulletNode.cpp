@@ -122,6 +122,33 @@ void BulletNode::Shutdown(void)
 //-----------------------------------------------------------------------------
 HRESULT BulletNode::Render(void)
 {
+	XMMATRIX viewTransformation = _camRender->GetViewMatrix();
+	XMMATRIX completeTransformation = this->m_scalingMatrix * this->m_worldTransformation * viewTransformation * this->m_projectionTransformation;
+
+	CBUFFER cBuffer;
+	cBuffer.LightVector = XMVector4Normalize(XMVectorSet(1.0f, 0.0f, 1.0f, 0.0f));
+	cBuffer.LightColor = XMFLOAT4(0.75f, 0.75f, 0.75f, 1.0f);
+	cBuffer.AmbientColor = XMFLOAT4(0.44f, 0.57f, 0.74f, 1.0f);
+	cBuffer.CompleteTransformation = completeTransformation;
+	cBuffer.WorldTransformation = this->m_worldTransformation;
+
+	// Update the constant buffer with the complete transformation
+	this->m_deviceContext->VSSetConstantBuffers(0, 1, &this->m_constantBuffer);
+	this->m_deviceContext->UpdateSubresource(this->m_constantBuffer, 0, 0, &cBuffer, 0, 0);
+
+	// Set the texture to be used by the pixel shader
+	this->m_deviceContext->PSSetShaderResources(0, 1, &this->m_texture);
+	//_deviceContext->PSSetSamplers(0, 1, &g_pSamLinear);
+
+	UINT stride = sizeof(VERTEX);
+	UINT offset = 0;
+	this->m_deviceContext->IASetVertexBuffers(0, 1, &this->m_vertexBuffer, &stride, &offset);
+	this->m_deviceContext->IASetIndexBuffer(this->m_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+	this->m_deviceContext->RSSetState(NULL);
+	this->m_deviceContext->RSSetState(this->m_wireFrame);
+	this->m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	this->m_deviceContext->DrawIndexed(m_numIndices, 0, 0);
+
 	/*
 	XMMATRIXTranslation(&_translationMatrix, _x, _y, _z);
 	XMMATRIXRotationY(&_rotationMatrixY, _angle);
