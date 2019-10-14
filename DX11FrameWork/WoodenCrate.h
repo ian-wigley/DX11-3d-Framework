@@ -10,7 +10,7 @@
 
 class TerrainNode;
 
-class WoodenCrate :
+__declspec(align(16)) class WoodenCrate :
 	public SceneNode
 {
 public:

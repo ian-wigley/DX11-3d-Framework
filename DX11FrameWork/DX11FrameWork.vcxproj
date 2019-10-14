@@ -164,7 +164,6 @@
     <ClCompile Include="FrameWorkResourceManager.cpp" />
     <ClCompile Include="FrameWorkTest.cpp" />
     <ClCompile Include="GamePadController.cpp" />
-    <ClCompile Include="GeometryHelper.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SceneGraph.cpp" />
@@ -172,7 +171,6 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SkyDome.cpp" />
     <ClCompile Include="SpotLight.cpp" />
-    <ClCompile Include="SpriteBatch.cpp" />
     <ClCompile Include="Tank.cpp" />
     <ClCompile Include="TerrainNode.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
@@ -197,7 +195,6 @@
     <ClInclude Include="FrameWorkResourceManager.h" />
     <ClInclude Include="FrameWorkTest.h" />
     <ClInclude Include="GamePadController.h" />
-    <ClInclude Include="GeometryHelper.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Renderer.h" />
@@ -207,7 +204,6 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SkyDome.h" />
     <ClInclude Include="SpotLight.h" />
-    <ClInclude Include="SpriteBatch.h" />
     <ClInclude Include="Tank.h" />
     <ClInclude Include="TerrainNode.h" />
     <ClInclude Include="TextureLoader.h" />

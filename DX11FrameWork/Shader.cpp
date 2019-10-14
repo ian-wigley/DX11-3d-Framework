@@ -23,11 +23,11 @@ HRESULT Shader::InitialiseShader()
 	ied[1] = { "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 };
 	ied[2] = { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 };
 
-	D3D11_BUFFER_DESC bufferDesc;
-	D3D11_MAPPED_SUBRESOURCE ms;
-	D3D11_SAMPLER_DESC samplerDesc;
-	D3D11_BUFFER_DESC matrixBufferDesc;
-	D3D11_BUFFER_DESC lightBufferDesc;
+	//D3D11_BUFFER_DESC bufferDesc;
+	//D3D11_MAPPED_SUBRESOURCE ms;
+	//D3D11_SAMPLER_DESC samplerDesc;
+	//D3D11_BUFFER_DESC matrixBufferDesc;
+	//D3D11_BUFFER_DESC lightBufferDesc;
 
 #pragma region Compile and set vertex shader
 	if (FAILED(D3DCompileFromFile(L"TerrainShader.hlsl", 0, 0, "main", "vs_4_0", 0, 0, &vsBlob, 0)))

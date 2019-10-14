@@ -25,15 +25,13 @@ public:
 
 private:
 	void Shutdown(void);
-	void InitialiseBullet(void);
+	HRESULT InitialiseBullet(void);
 
 	float _maxDistance;
 	float _startDistance;
 
-
 	BoundingShape* _boundingShape;
 	BoundingSphere* _boundingSphere;
-
 	Framework* _frame;
 	FrameWorkResourceManager* _frameWorkResourcesManager;
 	SceneGraph* _sGraph;

@@ -7,14 +7,11 @@
 #include "BoundingShape.h"
 #include "BoundingSphere.h"
 #include "BoundingBlox.h"
+#include "BulletNode.h"
 //#include "CameraRender.h"
 #include "Camera.h"
-#include "BulletNode.h"
-//#include <d3d11_1.h>
-//#include <directxmath.h>
 
-
-class Tank :
+__declspec(align(16)) class Tank :
 	public SceneNode
 {
 public:
@@ -26,70 +23,43 @@ public:
 	void MoveForward(float amountOfMovement);
 	void Yaw(float amountOfMovement);
 	void FireBullet(void);
-
 	void SetPosition(XMVECTOR distance);
 	void SetCameraType(bool cameraType);
 	void Shutdown();
 	void SetCamera(Camera* _cameraRender);
 
 private:
-
 	void TextDisplay();
 	void CalculateRoll(float opposite, float hypotenuse);
 	void CalculatePitch(float opposite, float hypotenuse);
 	HRESULT InitialiseTank(void);
 
-	bool _collsion;
-	bool _thirdPerson;
-	bool _fire;
-
-	float _xOpposite;
-	float _xHypotenuse;
-
-	float _zOpposite;;
-	float _zHypotenuse;
-
-	float h1;
-	float _terrainExtent;
-
-	int _bulletCount;
+	bool m_collsion;
+	bool m_thirdPerson;
+	bool m_fire;
+	float m_xOpposite;
+	float m_xHypotenuse;
+	float m_zOpposite;;
+	float m_zHypotenuse;
+	float m_terrainExtent;
+	int m_bulletCount;
 
 	BoundingShape* _boundingShape;
 	//BoundingSphere* _boundingSphere;
 	//BoundingBlox* _boundingBox;
-
 	//BulletNode* _bullet;
+	//CameraRender* _renderCam;
+	//SceneGraph* m_sGraph;
+	//TerrainNode* m_terrainNode;
+	Camera* m_camRender;
+	Framework* m_frame;
+	FrameWorkResourceManager* m_frameWorkResourcesManager;
 
-//	CameraRender* _renderCam;
-//	Camera* _renderCam;
-	Camera* _camRender;
-
-	Framework* _frame;
-	FrameWorkResourceManager* _frameWorkResourcesManager;
-	SceneGraph* _sGraph;
-	TerrainNode* _terrainNode;
-	
-//	ID3DXFont* mFont;
-	XMFLOAT3 _tankFrontLeftPos;
-	XMFLOAT3 _tankFrontMidPos;
-	XMFLOAT3 _tankFrontRightPos;
-	XMFLOAT3 _tankRearMidPos;
-
-
-	DWORD* indices;
-	unsigned int * tankIndices;
-	//UINT _numIndices;
-	//UINT m_numVertices = 24 * 3;
-//	ID3D11Buffer* vertexBuffer;
-//	ID3D11Buffer* indexBuffer;
-//	ID3D11Buffer* constantBuffer;
-	D3D11_MAPPED_SUBRESOURCE ms1;
-//	VERTEX1* modelVertices1;
-//	ID3D11Device* _pd3dDevice;
-	ID3D11RasterizerState* pRSWireFrame1;
-	ID3D11DepthStencilView*	_zBuffer;
-	ID3D11ShaderResourceView* _texture;
+	//ID3DXFont* mFont;
+	XMFLOAT3 m_tankFrontLeftPos;
+	XMFLOAT3 m_tankFrontMidPos;
+	XMFLOAT3 m_tankFrontRightPos;
+	XMFLOAT3 m_tankRearMidPos;
 
 	vector<Mesh> meshy;
-
 };

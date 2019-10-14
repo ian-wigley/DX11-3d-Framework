@@ -5,7 +5,7 @@
 #include "CameraRender.h"
 #include "DDSTextureLoader.h"
 
-class SkyDome :
+__declspec(align(16)) class SkyDome :
 	public SceneNode
 {
 public:
@@ -21,7 +21,7 @@ private:
 	void LoadDome(void);
 	HRESULT Initialise(void);
 
-	XMMATRIX _saveView;
+	//XMMATRIX _saveView;
 
 	//CameraRender* _renderCamera;
 	Framework* _frame;

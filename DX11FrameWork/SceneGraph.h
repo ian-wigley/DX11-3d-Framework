@@ -13,7 +13,7 @@
 #pragma once
 using namespace std;
 
-class SceneGraph : public SceneNode
+__declspec(align(16)) class SceneGraph : public SceneNode
 {
 public:
 	SceneGraph(void);

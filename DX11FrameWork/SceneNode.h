@@ -33,7 +33,7 @@ struct CBUFFER
 	XMFLOAT4    AmbientColor;
 };
 
-class SceneNode
+__declspec(align(16)) class SceneNode
 {
 public:
 	SceneNode(void);

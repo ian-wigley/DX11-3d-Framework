@@ -8,7 +8,6 @@
 //CameraNode* _cameraNode;
 //CameraRender* _camRender;
 Camera* _camRender;
-
 //Castle* _castle;
 //DirectionalLight* _dirLight;
 //ExplosionNode* _explosion;
@@ -18,8 +17,6 @@ Tank* _tank;
 Tree* _tree;
 TerrainNode* _tNode;
 WoodenCrate* _woodenCrate;
-
-
 //BulletNode* _bullet;
 
 FrameWorkTest::FrameWorkTest(void)
@@ -67,25 +64,21 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, LPWSTR, int)
 	ID3D11DeviceContext* _deviceContext = _frame->GetDirectDeviceContext();
 
 	_frameResourcesManager = new FrameWorkResourceManager(_frame);
-
 	_sGraph->AddNode(_tNode = new TerrainNode(L"Terrain", _frame, _frameResourcesManager),L"Parent");
-
-	
 	
 	//	_sGraph->AddNode(_dirLight = new DirectionalLight(L"DirectionalLight", _frame),L"Parent");
 
 
-//	_camRender = new CameraRender(_device, _tNode, _tank);
-//	_sGraph->AddNode(_cameraNode = new CameraNode(L"Camera"),L"Parent");
-
+	//	_camRender = new CameraRender(_device, _tNode, _tank);
+	//	_sGraph->AddNode(_cameraNode = new CameraNode(L"Camera"),L"Parent");
 
 	_camRender = new Camera(_deviceContext, _tNode, _tank);
 	_sGraph->SetCamera(_camRender);
 
-//	_frame->SetCamera(_camRender);
+	//	_frame->SetCamera(_camRender);
 
-	//Set the TerrainNode up in the Framework
-//	_frame->SetTerrain(_tNode);
+	// Set the TerrainNode up in the Framework
+	//	_frame->SetTerrain(_tNode);
 
 	_sGraph->AddNode(_tank = new Tank(L"Tank", _frame, -30.0f, -1000.0f, _frameResourcesManager),L"Parent");
 
@@ -94,24 +87,17 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, LPWSTR, int)
 	
 	_sGraph->AddNode(_skyDome = new SkyDome(L"SkyDome", _frame, _frameResourcesManager), L"Parent");
 
-
-
 	//_sGraph->AddNode(_tree = new Tree(L"Tree", _frame, -500.0f, -970.0f, _frameResourcesManager),L"Parent");
 	//_sGraph->AddNode(_tree = new Tree(L"Tree", _frame, 800.0f, 570.0f, _frameResourcesManager),L"Parent");
 	//_sGraph->AddNode(_tree = new Tree(L"Tree", _frame, 710.0f, 670.0f, _frameResourcesManager),L"Parent");
 	//_sGraph->AddNode(_tree = new Tree(L"Tree", _frame, 310.0f, 870.0f, _frameResourcesManager),L"Parent");
 	//_sGraph->AddNode(_tree = new Tree(L"Tree", _frame, 10.0f, 970.0f, _frameResourcesManager),L"Parent");
-
 	//_sGraph->AddNode(_castle = new Castle(L"Castle", _frame, 80.0f, 0.0f, _frameResourcesManager),L"Parent");
 
+	_frame->SetObjects(_camRender, _tank, _skyDome,_frameResourcesManager);
 
-
-
-	_frame->SetObjects(_camRender, _tank, _skyDome,_frameResourcesManager);////////////////////////////
-//
-//	// pass a pointer to the controller class of the tank & skyDome
-//	_frame->GetController();
-//
+	// pass a pointer to the controller class of the tank & skyDome
+	//	_frame->GetController();
 
 	// Required go get the view matrix
 	_tNode->SetCamera(_camRender);
