@@ -94,20 +94,13 @@ private:
 
 	bool _quit;
 
-	//ID3D11Texture2D * depthBuffer;
-	//ID3D11Device *           device;
-	//ID3D11DeviceContext *    deviceContext;
-	//IDXGISwapChain *	     swapChain;
-	//ID3D11RenderTargetView * renderTarget;
-	//ID3D11DepthStencilView * zBuffer;
-
 	MSG msg;
 	HWND _hWnd;
 	SceneGraph* _scene;
 
 	//void SetupMatrices(void);
 
-	//GamePadController* _controller;
+	GamePadController* _controller;
 	Camera* _renderCamera;
 	SkyDome* _skyDome;
 	Tank* _tank;

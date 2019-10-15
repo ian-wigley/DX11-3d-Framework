@@ -84,8 +84,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, LPWSTR, int)
 
 	_sGraph->AddNode(_tank = new Tank(L"Tank", _frame, -30.0f, -1000.0f, _frameResourcesManager),L"Parent");
 
-	_sGraph->AddNode(_woodenCrate = new WoodenCrate(L"WoodenCrate", _frame, -140.0f, -870.0f, _frameResourcesManager),L"Parent");
-	//_sGraph->AddNode(_woodenCrate = new WoodenCrate(L"WoodenCrate", _frame, -500.0f, 500.0f, _frameResourcesManager),L"Parent");
+//	_sGraph->AddNode(_woodenCrate = new WoodenCrate(L"WoodenCrate", _frame, -140.0f, -870.0f, _frameResourcesManager),L"Parent");
+//	//_sGraph->AddNode(_woodenCrate = new WoodenCrate(L"WoodenCrate", _frame, -500.0f, 500.0f, _frameResourcesManager),L"Parent");
 	
 	_sGraph->AddNode(_skyDome = new SkyDome(L"SkyDome", _frame, _frameResourcesManager), L"Parent");
 
@@ -103,7 +103,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, LPWSTR, int)
 
 	// Required go get the view matrix
 	_tNode->SetCamera(_camRender);
-	_woodenCrate->SetCamera(_camRender);
+//	_woodenCrate->SetCamera(_camRender);
 	_tank->SetCamera(_camRender);
 	_skyDome->SetCamera(_camRender);
 

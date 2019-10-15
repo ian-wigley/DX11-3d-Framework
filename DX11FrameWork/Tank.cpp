@@ -284,6 +284,7 @@ void Tank::FireBullet(void)
 	streamVal << this->m_bulletCount;
 	wstring _bulletName = L"BulletNode" + streamVal.str();
 	m_sGraph->AddNode(_bullet = new BulletNode(_bulletName, this->m_frame, this->m_position, this->m_angle, this->m_frameWorkResourcesManager),L"Parent");
+	_bullet->SetCamera(this->m_camRender);
 }
 
 //-----------------------------------------------------------------------------
@@ -369,7 +370,6 @@ void Tank::SetCameraType(bool cameraType)
 {
 	this->m_thirdPerson = cameraType;
 }
-
 
 void Tank::SetCamera(Camera* _cameraRender)
 {

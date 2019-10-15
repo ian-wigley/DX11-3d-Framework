@@ -22,6 +22,7 @@ public:
 	void Update(void);
 	bool DeleteMe(void);
 	void ExternalDeleteMe(bool deleteMe);
+	void SetCamera(Camera* _cameraRender);
 
 private:
 	void Shutdown(void);
@@ -32,11 +33,11 @@ private:
 
 	BoundingShape* _boundingShape;
 	BoundingSphere* _boundingSphere;
+	Camera* m_camRender;
 	Framework* _frame;
 	FrameWorkResourceManager* _frameWorkResourcesManager;
 	SceneGraph* _sGraph;
 	TerrainNode* m_terrainNode;
 	ExplosionNode* _explosion;
-	Camera* _camRender;
 };
 

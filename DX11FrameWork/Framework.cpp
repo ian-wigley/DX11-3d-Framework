@@ -45,7 +45,6 @@ Framework::~Framework(void)
 //-----------------------------------------------------------------------------
 Framework::Framework(HINSTANCE hInstance)
 {
-
 	// Direct3D interfaces used
 	//device = NULL;
 	//deviceContext = NULL;
@@ -59,7 +58,6 @@ Framework::Framework(HINSTANCE hInstance)
 	_screenWidth = 1024;
 	_screenHeight = 800;
 
-
 	_oldMouseX = 0;
 	_oldMouseY = 0;
 	_mouseX = 0;
@@ -71,9 +69,8 @@ Framework::Framework(HINSTANCE hInstance)
 	InitialiseDirect3D(_hWnd);
 //	InitD3D(_hWnd);
 	_frame = (this);
-//	_controller = new GamePadController();
+	_controller = new GamePadController();
 	// Create Scenegraph
-////	_scene = new SceneGraph(_pd3dDevice);
 	_scene = new SceneGraph(device, deviceContext, swapChain, renderTarget);
 }
 

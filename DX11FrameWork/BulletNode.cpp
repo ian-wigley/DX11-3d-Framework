@@ -11,12 +11,47 @@ VERTEX bulletVertices[] =
 	{XMFLOAT3(1.0f, -1.0f, 1.0f),   XMFLOAT3(0.0f, 0.0f, 1.0f),  XMFLOAT2(0.0f, 1.0f)},
 	{XMFLOAT3(-1.0f, 1.0f, 1.0f),   XMFLOAT3(0.0f, 0.0f, 1.0f),  XMFLOAT2(1.0f, 0.0f)},
 	{XMFLOAT3(1.0f, 1.0f, 1.0f),    XMFLOAT3(0.0f, 0.0f, 1.0f),  XMFLOAT2(1.0f, 1.0f)},
+
+	{XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, -1.0f),  XMFLOAT2(0.0f, 0.0f)},    // side 2
+	{XMFLOAT3(-1.0f, 1.0f, -1.0f),  XMFLOAT3(0.0f, 0.0f, -1.0f),  XMFLOAT2(0.0f, 1.0f)},
+	{XMFLOAT3(1.0f, -1.0f, -1.0f),  XMFLOAT3(0.0f, 0.0f, -1.0f),  XMFLOAT2(1.0f, 0.0f)},
+	{XMFLOAT3(1.0f, 1.0f, -1.0f),   XMFLOAT3(0.0f, 0.0f, -1.0f),  XMFLOAT2(1.0f, 1.0f)},
+
+	{XMFLOAT3(-1.0f, 1.0f, -1.0f),  XMFLOAT3(0.0f, 1.0f, 0.0f),  XMFLOAT2(0.0f, 0.0f)},    // side 3
+	{XMFLOAT3(-1.0f, 1.0f, 1.0f),   XMFLOAT3(0.0f, 1.0f, 0.0f),  XMFLOAT2(0.0f, 1.0f)},
+	{XMFLOAT3(1.0f, 1.0f, -1.0f),   XMFLOAT3(0.0f, 1.0f, 0.0f),  XMFLOAT2(1.0f, 0.0f)},
+	{XMFLOAT3(1.0f, 1.0f, 1.0f),    XMFLOAT3(0.0f, 1.0f, 0.0f),  XMFLOAT2(1.0f, 1.0f)},
+
+	{XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, -1.0f, 0.0f),  XMFLOAT2(0.0f, 0.0f)},    // side 4
+	{XMFLOAT3(1.0f, -1.0f, -1.0f),  XMFLOAT3(0.0f, -1.0f, 0.0f),  XMFLOAT2(0.0f, 1.0f)},
+	{XMFLOAT3(-1.0f, -1.0f, 1.0f),  XMFLOAT3(0.0f, -1.0f, 0.0f),  XMFLOAT2(1.0f, 0.0f)},
+	{XMFLOAT3(1.0f, -1.0f, 1.0f),   XMFLOAT3(0.0f, -1.0f, 0.0f),  XMFLOAT2(1.0f, 1.0f)},
+
+	{XMFLOAT3(1.0f, -1.0f, -1.0f),  XMFLOAT3(1.0f, 0.0f, 0.0f),  XMFLOAT2(0.0f, 0.0f)},    // side 5
+	{XMFLOAT3(1.0f, 1.0f, -1.0f),   XMFLOAT3(1.0f, 0.0f, 0.0f),  XMFLOAT2(0.0f, 1.0f)},
+	{XMFLOAT3(1.0f, -1.0f, 1.0f),   XMFLOAT3(1.0f, 0.0f, 0.0f),  XMFLOAT2(1.0f, 0.0f)},
+	{XMFLOAT3(1.0f, 1.0f, 1.0f),    XMFLOAT3(1.0f, 0.0f, 0.0f),  XMFLOAT2(1.0f, 1.0f)},
+
+	{XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(-1.0f, 0.0f, 0.0f),  XMFLOAT2(0.0f, 0.0f)},    // side 6
+	{XMFLOAT3(-1.0f, -1.0f, 1.0f),  XMFLOAT3(-1.0f, 0.0f, 0.0f),  XMFLOAT2(0.0f, 1.0f)},
+	{XMFLOAT3(-1.0f, 1.0f, -1.0f),  XMFLOAT3(-1.0f, 0.0f, 0.0f),  XMFLOAT2(1.0f, 0.0f)},
+	{XMFLOAT3(-1.0f, 1.0f, 1.0f),   XMFLOAT3(-1.0f, 0.0f, 0.0f),  XMFLOAT2(1.0f, 1.0f)},
 };
 
 DWORD bulletIndices[] =
 {
 	0, 1, 2,       // side 1
 	2, 1, 3,
+	4, 5, 6,       // side 2
+	6, 5, 7,
+	8, 9, 10,      // side 3
+	10, 9, 11,
+	12, 13, 14,    // side 4
+	14, 13, 15,
+	16, 17, 18,    // side 5
+	18, 17, 19,
+	20, 21, 22,    // side 6
+	22, 21, 23,
 };
 
 BulletNode::BulletNode(void)
@@ -33,9 +68,9 @@ BulletNode::BulletNode(wstring name, Framework* frame, XMFLOAT3& position, float
 	this->m_maxDistance = 200.0f + this->m_position.z;
 	this->m_scale = 0.0f;
 	this->m_angle = angle;
-	this->m_x = this->m_position.x;
-	this->m_y = this->m_position.y + 9.0f;
-	this->m_z = this->m_position.z;
+	this->m_x = 0;// this->m_position.x;
+	this->m_y = 0;// this->m_position.y + 9.0f;
+	this->m_z = 0;// this->m_position.z;
 	_name = name;
 	_frame = frame;
 	//	_texture = NULL;
@@ -50,6 +85,10 @@ BulletNode::BulletNode(wstring name, Framework* frame, XMFLOAT3& position, float
 	//_materials = _frameWorkResourcesManager->GetDefaultBlackMaterial();
 	InitialiseBullet();
 	//	_sGraph->AddNode(_boundingSphere = new BoundingSphere(_mesh, _pd3dDevice, _x,_y,_z, L"boundingSphere", _scale),L"Parent");
+
+	this->m_projectionTransformation = XMMatrixPerspectiveFovLH(XM_PIDIV4, 1.28f, 0.1f, 1500.0f);
+	this->m_worldTransformation = XMMatrixTranslation(100.0f, 50.0f, 0.0f);
+	this->m_scalingMatrix = XMMatrixScaling(25.0f, 25.0f, 25.0f);
 }
 
 //-----------------------------------------------------------------------------
@@ -123,7 +162,7 @@ void BulletNode::Shutdown(void)
 //-----------------------------------------------------------------------------
 HRESULT BulletNode::Render(void)
 {
-	XMMATRIX viewTransformation = _camRender->GetViewMatrix();
+	XMMATRIX viewTransformation = this->m_camRender->GetViewMatrix();
 	XMMATRIX completeTransformation = this->m_scalingMatrix * this->m_worldTransformation * viewTransformation * this->m_projectionTransformation;
 
 	CBUFFER cBuffer;
@@ -170,7 +209,7 @@ void BulletNode::Update(void)
 {
 	float _bulletHeight = this->m_terrainNode->GetHeight(this->m_x, this->m_z);
 	
-	if (this->m_z < this->m_maxDistance)
+//	if (this->m_z < this->m_maxDistance)
 	{
 		// 240 degrees to 180 degrees
 		if(this->m_angle < -0.80f && this->m_angle > -1.60f || this->m_angle > 0.80f && this->m_angle < 1.60f)
@@ -208,8 +247,8 @@ void BulletNode::Update(void)
 	// Bullet has reached the end of it's travel or collided the terrain
 	if(this->m_z >= this->m_maxDistance || this->m_y < _bulletHeight)
 	{
-		_delete = true;
-		_boundingSphere->SetDelete(true);
+		//_delete = true;
+		//_boundingSphere->SetDelete(true);
 		
 		//update the position vector
 		//		_position.x = _x;
@@ -218,6 +257,13 @@ void BulletNode::Update(void)
 
 		//		_sGraph->AddNode(_explosion = new ExplosionNode(L"ExplosionNode", _frame, _position, _frameWorkResourcesManager),L"Parent");
 	}
+
+	//this->m_worldTransformation = XMLoadFloat4x4()
+	this->m_worldTransformation= XMMatrixTranslation(
+		m_x,    // Units translated on the x-axis
+		m_y,    // Units translated on the y-axis
+		m_z    // Units translated on the z-axis
+	);
 }
 
 bool BulletNode::DeleteMe(void)
@@ -236,4 +282,9 @@ void BulletNode::ExternalDeleteMe(bool deleteMe)
 	//	_position.z = _z;
 	
 	//	_sGraph->AddNode(_explosion = new ExplosionNode(L"ExplosionNode", _frame, _position, _frameWorkResourcesManager),L"Parent");
+}
+
+void BulletNode::SetCamera(Camera* _cameraRender)
+{
+	this->m_camRender = _cameraRender;
 }
