@@ -67,7 +67,6 @@ Framework::Framework(HINSTANCE hInstance)
 	Initialise(hInstance);
 	ShowWindow(_hWnd, SW_SHOWDEFAULT);
 	InitialiseDirect3D(_hWnd);
-//	InitD3D(_hWnd);
 	_frame = (this);
 	_controller = new GamePadController();
 	// Create Scenegraph
