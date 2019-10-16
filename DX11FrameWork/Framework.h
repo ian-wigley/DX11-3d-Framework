@@ -62,7 +62,7 @@ public:
 
 	SceneGraph* GetSceneGraph(void);
 
-	//void SetCamera(Camera* _renderCam);
+	void SetCamera(Camera* _renderCam);
 	//Camera* GetCamera(void)const;
 
 	//void SetTank(Tank* tank);

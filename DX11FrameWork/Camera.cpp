@@ -5,7 +5,7 @@ Camera::Camera(ID3D11DeviceContext* deviceContext, TerrainNode* terrainNode, Tan
 {
 //	_defaultForward = XMVectorSet(0.0f, 1.0f, 1.0f, 0.0f);
 //	_defaultRight = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
-//	_defaultUp = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);// -1.0f
+	_defaultUp = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);// -1.0f
 
 	_cameraForward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 //	_cameraRight = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
@@ -95,10 +95,10 @@ Camera::Camera(ID3D11DeviceContext* deviceContext, TerrainNode* terrainNode, Tan
 //
 //	_moveLeftRight = 0.0f;
 //	_moveForwardBack = 0.0f;
-//
-//	_cameraYaw = 0.0f;
-//	_cameraPitch = 1.0f;
-//	_cameraRoll = 0.0f;
+
+	_cameraYaw = 0.0f;
+	_cameraPitch = 1.0f;
+	_cameraRoll = 0.0f;
 }
 
 
@@ -225,15 +225,17 @@ void Camera::MoveForward(float amountOfMovement)
 	Update();
 }
 
-////-----------------------------------------------------------------------------
-//// Name: MoveRight()
-//// Desc: Move Camera Right
-////-----------------------------------------------------------------------------
-//void Camera::MoveRight(float amountOfMovement)
-//{
-//	_cameraPosition += _cameraRight * amountOfMovement * _cameraSpeed;
-//}
-//
+//-----------------------------------------------------------------------------
+// Name: MoveRight()
+// Desc: Move Camera Right
+//-----------------------------------------------------------------------------
+void Camera::MoveRight(float amountOfMovement)
+{
+	//_cameraPosition += _cameraRight * amountOfMovement * _cameraSpeed;
+	m_positionY += amountOfMovement;
+	Update();
+}
+
 //-----------------------------------------------------------------------------
 // Name: MoveUp()
 // Desc: Move Camera Up
@@ -245,62 +247,66 @@ void Camera::MoveUp(float amountOfMovement)
 	Update();
 }
 
-////-----------------------------------------------------------------------------
-//// Name: Roll()
-//// Desc: Roll The Camera
-////-----------------------------------------------------------------------------
-//void Camera::Roll(float amountOfMovement)
-//{
-//	_cameraRoll += amountOfMovement;
-//
-//	XMMATRIX cameraRotationRoll = XMMatrixRotationAxis(_cameraForward, _cameraRoll);
-//	_cameraUp = XMVector3TransformCoord(_cameraUp, cameraRotationRoll);
-//	_cameraRight = XMVector3TransformCoord(_cameraRight, cameraRotationRoll);
-//}
-//
-////-----------------------------------------------------------------------------
-//// Name: Yaw()
-//// Desc: Yaw The Camera
-////-----------------------------------------------------------------------------
-//void Camera::Yaw(float amountOfMovement)
-//{
-//	_cameraYaw += amountOfMovement;
-//
-//	XMMATRIX cameraRotationYaw = XMMatrixRotationAxis(_defaultUp, _cameraYaw);
-//	//    _cameraRight = XMVector3TransformCoord(_defaultRight, cameraRotationYaw);
-//	_cameraForward = XMVector3TransformCoord(_defaultForward, cameraRotationYaw);
-//
-//}
-//
-////-----------------------------------------------------------------------------
-//// Name: Pitch()
-//// Desc: Pitch The Camera
-////-----------------------------------------------------------------------------
-//void Camera::Pitch(float amountOfMovement)
-//{
-//	_cameraPitch += amountOfMovement;
-//
-//	XMMATRIX cameraRotationPitch = XMMatrixRotationAxis(_cameraRight, _cameraPitch);
-//	_cameraUp = XMVector3TransformCoord(_defaultUp, cameraRotationPitch);
-//	_cameraForward = XMVector3TransformCoord(_cameraForward, cameraRotationPitch);
-//}
-//
-////Accessors
-//XMVECTOR Camera::GetPosition(void)const
-//{
-//	return _cameraPosition;
-//}
-//
-//XMVECTOR Camera::GetLookAt(void)const
-//{
-//	return _cameraForward;
-//}
-//
-//XMVECTOR Camera::GetRight(void)const
-//{
-//	return _cameraRight;
-//}
-//
+//-----------------------------------------------------------------------------
+// Name: Roll()
+// Desc: Roll The Camera
+//-----------------------------------------------------------------------------
+void Camera::Roll(float amountOfMovement)
+{
+	_cameraRoll += amountOfMovement;
+
+	XMMATRIX cameraRotationRoll = XMMatrixRotationAxis(_cameraForward, _cameraRoll);
+	_cameraUp = XMVector3TransformCoord(_cameraUp, cameraRotationRoll);
+	_cameraRight = XMVector3TransformCoord(_cameraRight, cameraRotationRoll);
+}
+
+//-----------------------------------------------------------------------------
+// Name: Yaw()
+// Desc: Yaw The Camera
+//-----------------------------------------------------------------------------
+void Camera::Yaw(float amountOfMovement)
+{
+	_cameraYaw += amountOfMovement;
+
+	XMMATRIX cameraRotationYaw = XMMatrixRotationAxis(_defaultUp, _cameraYaw);
+	////    _cameraRight = XMVector3TransformCoord(_defaultRight, cameraRotationYaw);
+	//_cameraForward = XMVector3TransformCoord(_defaultForward, cameraRotationYaw);
+
+
+	m_rotationY += amountOfMovement;
+
+	Update();
+}
+
+//-----------------------------------------------------------------------------
+// Name: Pitch()
+// Desc: Pitch The Camera
+//-----------------------------------------------------------------------------
+void Camera::Pitch(float amountOfMovement)
+{
+	_cameraPitch += amountOfMovement;
+
+	//XMMATRIX cameraRotationPitch = XMMatrixRotationAxis(_cameraRight, _cameraPitch);
+	//_cameraUp = XMVector3TransformCoord(_defaultUp, cameraRotationPitch);
+	//_cameraForward = XMVector3TransformCoord(_cameraForward, cameraRotationPitch);
+}
+
+//Accessors
+XMVECTOR Camera::GetPosition(void)const
+{
+	return _cameraPosition;
+}
+
+XMVECTOR Camera::GetLookAt(void)const
+{
+	return _cameraForward;
+}
+
+XMVECTOR Camera::GetRight(void)const
+{
+	return _cameraRight;
+}
+
 //void Camera::SetPosition(XMVECTOR _gamepadPosition)
 //{
 //	_cameraPosition = _gamepadPosition;

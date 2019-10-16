@@ -76,8 +76,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, LPWSTR, int)
 
 	_camRender = new Camera(_deviceContext, _tNode, _tank);
 	_sGraph->SetCamera(_camRender);
-
-	//	_frame->SetCamera(_camRender);
+	_frame->SetCamera(_camRender);
 
 	// Set the TerrainNode up in the Framework
 	//	_frame->SetTerrain(_tNode);

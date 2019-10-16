@@ -23,8 +23,8 @@ void GamePadController::ProcessGameController()
 {
 	_thirdPerson = false;// _renderCamera->GetCameraType();
 
-	float _amountOfMovement = 0.5f;
-	float _rotationAmount = 0.015f;
+	float _amountOfMovement = 1.0f;
+	float _rotationAmount = 1.0f; //0.015f;
 
 	DWORD magnitudeSquared;
 
@@ -90,22 +90,28 @@ void GamePadController::ProcessGameController()
 	if (buttons & XINPUT_GAMEPAD_DPAD_UP)
 	{
 		// Directional pad up pressed
+		XMVECTOR v = _renderCamera->GetPosition() += _renderCamera->GetLookAt() * 0.5f;
 //		_renderCamera->SetPosition(_renderCamera->GetPosition() += _renderCamera->GetLookAt() * 0.5f);
+		int i = 0;
+		_renderCamera->MoveForward(0.5f);
 	}
 	if (buttons & XINPUT_GAMEPAD_DPAD_DOWN)
 	{
 		// Directional pad down pressed
 //		_renderCamera->SetPosition(_renderCamera->GetPosition() += -_renderCamera->GetLookAt() * 0.5f);
+		_renderCamera->MoveForward(-0.5f);
 	}
 	if (buttons & XINPUT_GAMEPAD_DPAD_LEFT)
 	{
 		// Directional pad left pressed
 //		_renderCamera->SetPosition(_renderCamera->GetPosition() += -_renderCamera->GetRight());
+		_renderCamera->MoveRight(-0.5f);
 	}
 	if (buttons & XINPUT_GAMEPAD_DPAD_RIGHT)
 	{
 		// Directional pad right pressed
 //		_renderCamera->SetPosition(_renderCamera->GetPosition() += _renderCamera->GetRight());
+		_renderCamera->MoveRight(0.5f);
 	}
 
 	//Test if the A button has been pressed (Fire)
@@ -135,7 +141,8 @@ void GamePadController::ProcessGameController()
 	{
 		if (!_thirdPerson)
 		{
-			//_renderCamera->Yaw(_rotationAmount * 1);
+			_renderCamera->Yaw(_rotationAmount * 1);
+			//_renderCamera->Roll(_rotationAmount * 1);
 		}
 		else
 		{
@@ -148,7 +155,7 @@ void GamePadController::ProcessGameController()
 	{
 		if (!_thirdPerson)
 		{
-			//_renderCamera->Yaw(_rotationAmount * -1);
+			_renderCamera->Yaw(_rotationAmount * -1);
 		}
 		else
 		{

@@ -691,7 +691,7 @@ void Framework::OnResetDevice(void)
 //-----------------------------------------------------------------------------
 void Framework::Update(void)
 {
-	//_controller->ProcessGameController();
+	_controller->ProcessGameController();
 	//_scene->Update();
 }
 
@@ -764,13 +764,13 @@ HWND Framework::GetHandle(void)
 }
 
 ////void Framework::SetCamera(CameraRender* renderCam)
-//void Framework::SetCamera(Camera* renderCam)
-//{
-//	_renderCamera = renderCam;
-//
-//	// Make the camera accessible to the controller
-//	_controller->SetCamera(_renderCamera);
-//}
+void Framework::SetCamera(Camera* renderCam)
+{
+	_renderCamera = renderCam;
+
+	// Make the camera accessible to the controller
+	_controller->SetCamera(_renderCamera);
+}
 
 
 //void Framework::SetTank(Tank* tank)
