@@ -175,7 +175,7 @@ HRESULT Tank::InitialiseTank(void)
 	D3D11_RASTERIZER_DESC rd;
 	ZeroMemory(&rd, sizeof(rd));
 	//rd.AntialiasedLineEnable = false;
-	rd.CullMode = D3D11_CULL_BACK;
+	rd.CullMode = D3D11_CULL_FRONT;
 	rd.FrontCounterClockwise = true;
 	rd.FillMode = D3D11_FILL_SOLID;
 	this->m_device->CreateRasterizerState(&rd, &this->m_wireFrame);

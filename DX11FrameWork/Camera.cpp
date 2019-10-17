@@ -3,15 +3,13 @@
 
 Camera::Camera(ID3D11DeviceContext* deviceContext, TerrainNode* terrainNode, Tank* tank)
 {
-//	_defaultForward = XMVectorSet(0.0f, 1.0f, 1.0f, 0.0f);
-//	_defaultRight = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
-	_defaultUp = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);// -1.0f
+	//	_defaultForward = XMVectorSet(0.0f, 1.0f, 1.0f, 0.0f);
+	//	_defaultRight = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+	_defaultUp = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
 	_cameraForward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
-//	_cameraRight = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-//	_cameraUp = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-
-	//------------------------------------------------------------------------------------------
+	//	_cameraRight = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+	//	_cameraUp = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
 	_cameraPosition = XMVectorSet(0.0f, -130.0f, -400.0f, 0.0f);
 
@@ -76,25 +74,25 @@ Camera::Camera(ID3D11DeviceContext* deviceContext, TerrainNode* terrainNode, Tan
 	_cameraPosition = positionVector;
 	cameraTarget = lookAtVector;
 	_cameraUp = upVector;
-	   	  
-//	_thirdPerson = false;
-//
-//	_angle = 0;
-//	_terrain = terrainNode;
-//	_tank = tank;
-//
-//	_offsetHeight = 10.0f;
+
+	_thirdPerson = false;
+	
+	//	_angle = 0;
+	//	_terrain = terrainNode;
+	//	_tank = tank;
+	//
+	//	_offsetHeight = 10.0f;
 	_cameraSpeed = 5.0f;
-//
-//	//_position.y = _terrain->GetHeight(_position.x,_position.z) + _offsetHeight;
-//	//	float _y = _terrain->GetHeight(0.0f, 0.0f) + _offsetHeight;
-//	//	XMVectorSetY(_position, _y);
-//
-//	//	_fogStart = 400.0f;
-//	//	_fogEnd = 2000.0f;
-//
-//	_moveLeftRight = 0.0f;
-//	_moveForwardBack = 0.0f;
+	//
+	//	//_position.y = _terrain->GetHeight(_position.x,_position.z) + _offsetHeight;
+	//	//	float _y = _terrain->GetHeight(0.0f, 0.0f) + _offsetHeight;
+	//	//	XMVectorSetY(_position, _y);
+	//
+	//	//	_fogStart = 400.0f;
+	//	//	_fogEnd = 2000.0f;
+	//
+	//	_moveLeftRight = 0.0f;
+	//	_moveForwardBack = 0.0f;
 
 	_cameraYaw = 0.0f;
 	_cameraPitch = 1.0f;
@@ -146,6 +144,7 @@ void Camera::Update(void)
 	float yaw, pitch, roll;
 	XMMATRIX rotationMatrix;
 
+	XMVECTOR DefaultForward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 
 	// Setup the vector that points upwards.
 	up.x = 0.0f;
@@ -179,8 +178,20 @@ void Camera::Update(void)
 	// Create the rotation matrix from the yaw, pitch, and roll values.
 	rotationMatrix = XMMatrixRotationRollPitchYaw(pitch, yaw, roll);
 
+	// Rotate the position vector with the rotation matrix so that it corrects
+	// the vector direction.
+	positionVector = XMVector3TransformCoord(positionVector, rotationMatrix); //new
+
+
 	// Transform the lookAt and up vector by the rotation matrix so the view is correctly rotated at the origin.
-	lookAtVector = XMVector3TransformCoord(lookAtVector, rotationMatrix);
+	//lookAtVector = XMVector3TransformCoord(lookAtVector, rotationMatrix);
+	lookAtVector = XMVector3TransformCoord(DefaultForward, rotationMatrix);//new
+	lookAtVector = XMVector3Normalize(lookAtVector);//new
+
+	// Rotate the position vector with the rotation matrix so that it corrects
+	// the vector direction.
+	//positionVector = XMVector3TransformCoord(positionVector, rotationMatrix); //new
+
 	upVector = XMVector3TransformCoord(upVector, rotationMatrix);
 
 	// Translate the rotated camera position to the location of the viewer.
@@ -191,23 +202,23 @@ void Camera::Update(void)
 }
 
 
-////-----------------------------------------------------------------------------
-//// Name: SetLookAt()
-//// Desc: Get the position of tank away from the camera
-////-----------------------------------------------------------------------------
-//void Camera::SetLookAt(const XMVECTOR &position, float angle)
-//{
-//	_angle = angle;
-//
-//	//targetPosition.x = position.x;
-//	//targetPosition.y = position.y + 20.0f;
-//	//targetPosition.z = position.z;
-//
-//	//_position.x = position.x;
-//	//_position.y = position.y + 20.0f;
-//	//_position.z = position.z -100;
-//
-//}
+//-----------------------------------------------------------------------------
+// Name: SetLookAt()
+// Desc: Get the position of tank away from the camera
+//-----------------------------------------------------------------------------
+void Camera::SetLookAt(const XMVECTOR &position, float angle)
+{
+	_angle = angle;
+
+	//targetPosition.x = position.x;
+	//targetPosition.y = position.y + 20.0f;
+	//targetPosition.z = position.z;
+
+	//_position.x = position.x;
+	//_position.y = position.y + 20.0f;
+	//_position.z = position.z -100;
+
+}
 
 //-----------------------------------------------------------------------------
 // Name: MoveForward()
@@ -215,13 +226,8 @@ void Camera::Update(void)
 //-----------------------------------------------------------------------------
 void Camera::MoveForward(float amountOfMovement)
 {
-
-	// Update the position.
-	// m_positionX += amountOfMovement;// sinf(radians) * m_forwardSpeed;
-	m_positionZ += amountOfMovement;// cosf(radians) * m_forwardSpeed;
-	//_cameraPosition += _cameraForward * amountOfMovement;// *_cameraSpeed;
-	//////	_cameraPosition = _cameraPosition;
-	////_terrain->UpdateViewMatrix(_viewMatrix);
+	m_positionZ += amountOfMovement;
+	//_cameraPosition += _cameraForward * amountOfMovement;
 	Update();
 }
 
@@ -266,13 +272,10 @@ void Camera::Roll(float amountOfMovement)
 //-----------------------------------------------------------------------------
 void Camera::Yaw(float amountOfMovement)
 {
-	_cameraYaw += amountOfMovement;
-
+	//_cameraYaw += amountOfMovement;
 	XMMATRIX cameraRotationYaw = XMMatrixRotationAxis(_defaultUp, _cameraYaw);
 	////    _cameraRight = XMVector3TransformCoord(_defaultRight, cameraRotationYaw);
-	//_cameraForward = XMVector3TransformCoord(_defaultForward, cameraRotationYaw);
-
-
+	_cameraForward = XMVector3TransformCoord(_defaultForward, cameraRotationYaw);
 	m_rotationY += amountOfMovement;
 
 	Update();
@@ -285,7 +288,6 @@ void Camera::Yaw(float amountOfMovement)
 void Camera::Pitch(float amountOfMovement)
 {
 	_cameraPitch += amountOfMovement;
-
 	//XMMATRIX cameraRotationPitch = XMMatrixRotationAxis(_cameraRight, _cameraPitch);
 	//_cameraUp = XMVector3TransformCoord(_defaultUp, cameraRotationPitch);
 	//_cameraForward = XMVector3TransformCoord(_cameraForward, cameraRotationPitch);
@@ -317,21 +319,21 @@ XMMATRIX Camera::GetViewMatrix(void)const
 	return _viewMatrix;
 }
 
-////-----------------------------------------------------------------------------
-//// Name: SetCameraType()
-//// Desc: Changes between 1st and 3rd person camera
-////-----------------------------------------------------------------------------
-//void Camera::SetCameraType(bool cameraType)
-//{
-//	_thirdPerson = cameraType;
-//}
-//
-////-----------------------------------------------------------------------------
-//// Name: GetCameraType()
-//// Desc: Returns the camera type
-////-----------------------------------------------------------------------------
-//bool Camera::GetCameraType(void)
-//{
-//	return _thirdPerson;
-//}
-//
+//-----------------------------------------------------------------------------
+// Name: SetCameraType()
+// Desc: Changes between 1st and 3rd person camera
+//-----------------------------------------------------------------------------
+void Camera::SetCameraType(bool cameraType)
+{
+	_thirdPerson = cameraType;
+}
+
+//-----------------------------------------------------------------------------
+// Name: GetCameraType()
+// Desc: Returns the camera type
+//-----------------------------------------------------------------------------
+bool Camera::GetCameraType(void)
+{
+	return _thirdPerson;
+}
+

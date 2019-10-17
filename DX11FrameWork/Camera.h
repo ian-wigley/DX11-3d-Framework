@@ -30,71 +30,53 @@ public:
 	void Yaw(float amountOfMovement);
 	void Pitch(float amountOfMovement);
 
-//	void SetForward(void);
-//	void SetPosition(XMVECTOR _gamepadPosition);
-//	void SetLookAt(const XMVECTOR &position, float angle);
-//	void SetCameraType(bool cameraType);
-//	
-//	bool GetCameraType(void);
+	void SetForward(void);
+	void SetPosition(XMVECTOR _gamepadPosition);
+	void SetLookAt(const XMVECTOR &position, float angle);
+	void SetCameraType(bool cameraType);
+
+	bool GetCameraType(void);
 
 	XMVECTOR GetPosition(void)const;
 	XMVECTOR GetLookAt(void)const;
 	XMVECTOR GetRight(void)const;
 	XMMATRIX GetViewMatrix(void)const;
 
-//	struct CBUFFER
-//	{
-//		 XMMATRIX    CompleteTransformation;
-////		 XMMATRIX    World;
-////		 XMMATRIX    Transformation;
-////		 XMMATRIX	 Rotation;
-////		 XMVECTOR    LightVector;
-////		 XMFLOAT4    LightColor;
-////		 XMFLOAT4    AmbientColor;
-//	 };
-//
-//
-//
 private:
-////	ID3D11Device* _device;
-////	ID3D11DeviceContext* _deviceContext;
-////	ID3D11Buffer* _constantBuffer;
-////	CBUFFER* _cBuffer;
 
 	XMMATRIX	_viewMatrix;
 	XMMATRIX	_projectionMatrix;
 
-//	XMMATRIX	viewTransformation;
-//	XMMATRIX	projectionTransformation;
-//	XMMATRIX	worldTransformation;
-//
-//	XMVECTOR    _defaultForward;
-//    XMVECTOR    _defaultRight;
-    XMVECTOR    _defaultUp;
+	//	XMMATRIX	viewTransformation;
+	//	XMMATRIX	projectionTransformation;
+	//	XMMATRIX	worldTransformation;
+	//
+	XMVECTOR    _defaultForward;
+	//    XMVECTOR    _defaultRight;
+	XMVECTOR    _defaultUp;
 
-    XMVECTOR    _cameraForward;
-    XMVECTOR    _cameraUp;
-    XMVECTOR    _cameraRight;
-    XMVECTOR    _cameraPosition;
+	XMVECTOR    _cameraForward;
+	XMVECTOR    _cameraUp;
+	XMVECTOR    _cameraRight;
+	XMVECTOR    _cameraPosition;
 	XMVECTOR     cameraTarget;
 
 	float       _moveLeftRight;
-    float       _moveForwardBack;
-    float       _cameraYaw;
-    float       _cameraPitch;
-    float       _cameraRoll;
+	float       _moveForwardBack;
+	float       _cameraYaw;
+	float       _cameraPitch;
+	float       _cameraRoll;
 	float		_offsetHeight;
 	float		_cameraSpeed;
 	float		_fogStart;
 	float		_fogEnd;
 	float		_angle;
 
-//	float		amountOfMovement;
-	
-//	bool _thirdPerson;
+	//	float		amountOfMovement;
+	bool _thirdPerson;
 
-//	TerrainNode* _terrain;
-//	Tank* _tank;
+	//	TerrainNode* _terrain;
+	//	Tank* _tank;
 
 	float m_positionX, m_positionY, m_positionZ;
 	float m_rotationX, m_rotationY, m_rotationZ;
