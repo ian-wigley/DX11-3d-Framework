@@ -1,25 +1,22 @@
-//#pragma once
-//#include "cameranode.h"
-//
+#pragma once
+#include "cameranode.h"
+
 //#include <string>
 //#include <Windows.h>
-//
+
 ////#include <d3d11.h>
-////#include <d3d11_1.h>
 ////#include <directxmath.h>
 ////#define _XM_NO_INTRINSICS_
-//
-//
-//
+
 //class TerrainNode;
 //class Tank;
-//
-//class CameraRender :
-//	public CameraNode
-//{
-//public:
-//	CameraRender(void);
-//	~CameraRender(void);
+
+class CameraRender :
+	public CameraNode
+{
+public:
+	CameraRender(void);
+	~CameraRender(void);
 //
 //
 //    XMVECTOR    _defaultForward;
@@ -56,8 +53,8 @@
 //	XMMATRIX GetViewMatrix(void)const;
 //	void SetCameraType(bool cameraType);
 //	bool GetCameraType(void);
-//
-//private:
+
+private:
 //    XMMATRIX _viewMatrix;
 //	XMMATRIX _projectionMatrix;
 //	XMVECTOR targetPosition;
@@ -85,4 +82,4 @@
 ////	CameraNode* _NodeToRender;
 //	TerrainNode* _terrain;
 //	Tank* _tank;
-//};
+};

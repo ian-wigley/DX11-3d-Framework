@@ -1,3 +1,8 @@
+//-----------------------------------------------------------------------------
+// File: Camera.cpp
+// Description : This Class managers the Camera
+//-----------------------------------------------------------------------------
+
 #include "Camera.h"
 //#include "TerrainNode.h"
 

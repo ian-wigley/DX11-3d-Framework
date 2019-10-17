@@ -1,9 +1,8 @@
 //-----------------------------------------------------------------------------
 // File: CameraNode.cpp
 // Description : This Class managers the CameraNode
-
-
 //-----------------------------------------------------------------------------
+
 #include "CameraNode.h"
 
 CameraNode::CameraNode(void)

@@ -8,8 +8,6 @@ public:
 	~Light(void);
 	void SetDiffuseColor(float, float, float, float);
 	void SetDirection(float, float, float);
-
-
 	//XMVECTOR GetDiffuseColor();
 	//XMVECTOR GetDirection();
 

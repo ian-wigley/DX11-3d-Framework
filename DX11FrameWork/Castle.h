@@ -6,7 +6,6 @@
 #include "FrameWorkResourceManager.h"
 #include "TerrainNode.h"
 
-
 class Castle :
 	public SceneNode
 {

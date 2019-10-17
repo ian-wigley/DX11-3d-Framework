@@ -1,21 +1,18 @@
-////-----------------------------------------------------------------------------
-//// File: CameraRender.cpp
-//// Description : This Class managers the Rendering of the Camera
-//
-//
-////-----------------------------------------------------------------------------
-//
-//
+//-----------------------------------------------------------------------------
+// File: CameraRender.cpp
+// Description : This Class managers the Rendering of the Camera
+//-----------------------------------------------------------------------------
+
+#include "CameraRender.h"
 //#include "TerrainNode.h"
 //#include "Tank.h"
-//#include "CameraRender.h"
 //#include "Renderer.h"
-//
+
 //XMVECTOR _up;
 //XMVECTOR _lookAt;
 //XMVECTOR _right;
 //XMVECTOR _position;
-//
+
 ////-----------------------------------------------------------------------------
 //// Name: CameraRender()
 //// Desc: CameraRender Class Constructor
@@ -78,15 +75,15 @@
 //    _cameraRoll = 0.0f;;
 //
 //}
-//
-////-----------------------------------------------------------------------------
-//// Name: ~CameraRender()
-//// Desc: CameraRender Class Destructor
-////-----------------------------------------------------------------------------
-//CameraRender::~CameraRender(void)
-//{
-//}
-//
+
+//-----------------------------------------------------------------------------
+// Name: ~CameraRender()
+// Desc: CameraRender Class Destructor
+//-----------------------------------------------------------------------------
+CameraRender::~CameraRender(void)
+{
+}
+
 ////-----------------------------------------------------------------------------
 //// Name: Render()
 //// Desc: Render the scene
