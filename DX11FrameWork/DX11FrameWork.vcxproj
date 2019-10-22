@@ -22,7 +22,7 @@
     <ProjectGuid>{5DB6D509-ADE5-4FC9-84A0-1F28CD97DEAA}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>DX11FrameWork</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -171,6 +171,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SkyDome.cpp" />
     <ClCompile Include="SpotLight.cpp" />
+    <ClCompile Include="SpriteBatch.cpp" />
     <ClCompile Include="Tank.cpp" />
     <ClCompile Include="TerrainNode.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SkyDome.h" />
     <ClInclude Include="SpotLight.h" />
+    <ClInclude Include="SpriteBatch.h" />
     <ClInclude Include="Tank.h" />
     <ClInclude Include="TerrainNode.h" />
     <ClInclude Include="TextureLoader.h" />

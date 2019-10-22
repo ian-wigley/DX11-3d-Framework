@@ -14,6 +14,7 @@
 #include "Tree.h"
 #include "TerrainNode.h"
 #include "WoodenCrate.h"
+#include "SpriteBatch.h"
 
 #pragma once
 

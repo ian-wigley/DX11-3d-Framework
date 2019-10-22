@@ -18,6 +18,7 @@ Tree* _tree;
 TerrainNode* _tNode;
 WoodenCrate* _woodenCrate;
 //BulletNode* _bullet;
+SpriteBatch* m_spriteBatch;
 
 FrameWorkTest::FrameWorkTest(void)
 {
@@ -105,6 +106,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, LPWSTR, int)
 //	_woodenCrate->SetCamera(_camRender);
 	_tank->SetCamera(_camRender);
 	_skyDome->SetCamera(_camRender);
+	m_spriteBatch = new SpriteBatch();
+	m_spriteBatch->Initialize(_device);
 
 	return _frame->Run();
 }
