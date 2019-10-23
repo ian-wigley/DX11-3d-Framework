@@ -7,21 +7,16 @@
 
 // DirectX include files - Make sure that $(DSSDK_DIR)Include is on the VC++ Directories Include path
 #include <d3d11.h>
-//#include <d3d11_1.h>
 #include <directxmath.h>
-
 
 // DirectX libraries that are needed - make sure that $(DSSDK_DIR)lib\x86 is on the VC++ Directories Lib path
 //#pragma comment(lib, "d3d11.lib")
-////#pragma comment(lib, "d3dx11.lib")
 
 class Tank;
 class SkyDome;
 class FrameWorkResourceManager;
 
-
 using namespace std;
-
 
 #pragma once
 class Framework
@@ -58,13 +53,10 @@ public:
 	bool InitialisePipeline(void);
 
 	static LRESULT CALLBACK windPROC(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-
 	SceneGraph* GetSceneGraph(void);
 
 	void SetCamera(Camera* _renderCam);
 	//Camera* GetCamera(void)const;
-
 	//void SetTank(Tank* tank);
 	void SetTerrain(TerrainNode* terrainNode);
 	TerrainNode* GetTerrain(void)const;
@@ -72,17 +64,11 @@ public:
 
 	ID3D11DepthStencilView* GetStencilBuffer(void)const;
 
-
-
-	//	void SetObjects(CameraRender* camRender, Tank* tank, SkyDome* skyDome);
-	// void SetObjects(Camera* camRender, Tank* tank, SkyDome* skyDome);
-	//	void SetObjects(CameraRender* camRender, Tank* tank, SkyDome* skyDome, FrameWorkResourceManager* frameResourcesManager);
 	void SetObjects(Camera* camera, Tank* tank, SkyDome* skyDome, FrameWorkResourceManager* frameResourcesManager);
 
 protected:
 #define SAFE_DELETE(x) { delete x; x = NULL; }
 #define SAFE_RELEASE(x) if( x ) { (x)->Release(); (x) = NULL; }
-
 
 private:
 	int _screenWidth;
