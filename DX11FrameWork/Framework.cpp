@@ -1,8 +1,6 @@
 //-----------------------------------------------------------------------------
 // File: Framework.cpp
 // Description : This Class managers the Framework
-
-
 //-----------------------------------------------------------------------------
 
 #include "Framework.h"
@@ -11,15 +9,9 @@
 #include "FrameWorkTest.h"
 #include "FrameWorkResourceManager.h"
 
-Framework* _frame =  NULL;
+Framework* _frame = NULL;
 FrameWorkTest* _frameWorkTest;
 FrameWorkResourceManager* _frameWorkResourceManager = NULL;
-
-ID3D11Device *           device;
-ID3D11DeviceContext *    deviceContext;
-IDXGISwapChain *	     swapChain;
-ID3D11RenderTargetView * renderTarget;
-ID3D11DepthStencilView * zBuffer;
 
 //-----------------------------------------------------------------------------
 // Name: Framework()
@@ -35,7 +27,7 @@ Framework::Framework(void)
 //-----------------------------------------------------------------------------
 Framework::~Framework(void)
 {
-//	_frameWorkResourceManager->Shutdown();
+	//	_frameWorkResourceManager->Shutdown();
 	Shutdown();
 }
 
@@ -81,18 +73,18 @@ Framework::Framework(HINSTANCE hInstance)
 bool Framework::Initialise(HINSTANCE hInstance)
 {
 	WNDCLASS wc;
-	wc.style         = CS_HREDRAW | CS_VREDRAW;
-	wc.lpfnWndProc   = windPROC; 
-	wc.cbClsExtra    = 0;
-	wc.cbWndExtra    = 0;
-	wc.hInstance     = hInstance;
-	wc.hIcon         = LoadIcon(0, IDI_APPLICATION);
-	wc.hCursor       = LoadCursor(0, IDC_ARROW);
+	wc.style = CS_HREDRAW | CS_VREDRAW;
+	wc.lpfnWndProc = windPROC;
+	wc.cbClsExtra = 0;
+	wc.cbWndExtra = 0;
+	wc.hInstance = hInstance;
+	wc.hIcon = LoadIcon(0, IDI_APPLICATION);
+	wc.hCursor = LoadCursor(0, IDC_ARROW);
 	wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
-	wc.lpszMenuName  = 0;
+	wc.lpszMenuName = 0;
 	wc.lpszClassName = L"D3DWndClassName";
 
-	if( !RegisterClass(&wc) )
+	if (!RegisterClass(&wc))
 	{
 		MessageBox(0, L"RegisterClass FAILED", 0, 0);
 		PostQuitMessage(0);
@@ -102,13 +94,13 @@ bool Framework::Initialise(HINSTANCE hInstance)
 	//_hWnd = CreateWindow(L"D3DWndClassName", L"Framework", WS_OVERLAPPEDWINDOW, 100, 100, 1024 ,800, 0, 0, wc.hInstance, 0);
 	_hWnd = CreateWindow(L"D3DWndClassName", L"Framework", WS_OVERLAPPEDWINDOW, 100, 100, _screenWidth, _screenHeight, 0, 0, wc.hInstance, 0);
 
-	if(!_hWnd)
+	if (!_hWnd)
 	{
 		MessageBox(0, L"CreateWindow FAILED", 0, 0);
 		PostQuitMessage(0);
 	}
 
-	UnregisterClass( L"Framework", wc.hInstance );
+	UnregisterClass(L"Framework", wc.hInstance);
 	return 0;
 }
 
@@ -145,15 +137,15 @@ int Framework::Run(void)
 	}
 
 	msg.message = WM_NULL;
-	while(msg.message != WM_QUIT && GetAsyncKeyState(VK_ESCAPE) == 0)
+	while (msg.message != WM_QUIT && GetAsyncKeyState(VK_ESCAPE) == 0)
 	{
-		if(PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+		if (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
 		else
-		{	
+		{
 			if (updateFlag)
 			{
 				if (usePerformanceCounter)
@@ -209,18 +201,18 @@ bool Framework::InitialiseDirect3D(HWND hWnd)
 {
 	RECT dimensions;
 
-	#pragma region Array of driver types that we want to check for in order of preference
+#pragma region Array of driver types that we want to check for in order of preference
 	D3D_DRIVER_TYPE driverTypes[] =
 	{
-		D3D_DRIVER_TYPE_HARDWARE, 
-		D3D_DRIVER_TYPE_WARP, 
+		D3D_DRIVER_TYPE_HARDWARE,
+		D3D_DRIVER_TYPE_WARP,
 		D3D_DRIVER_TYPE_SOFTWARE
 	};
 
-	unsigned int totalDriverTypes = ARRAYSIZE( driverTypes );
-	#pragma endregion
+	unsigned int totalDriverTypes = ARRAYSIZE(driverTypes);
+#pragma endregion
 
-	#pragma region Array of feature levels we require in order of preference
+#pragma region Array of feature levels we require in order of preference
 	D3D_FEATURE_LEVEL featureLevels[] =
 	{
 		D3D_FEATURE_LEVEL_11_0,
@@ -228,18 +220,18 @@ bool Framework::InitialiseDirect3D(HWND hWnd)
 		D3D_FEATURE_LEVEL_10_0
 	};
 
-	unsigned int totalFeatureLevels = ARRAYSIZE( featureLevels );
-	#pragma endregion
+	unsigned int totalFeatureLevels = ARRAYSIZE(featureLevels);
+#pragma endregion
 
-	#pragma region Get the width and height of the window client area
-	GetClientRect( hWnd, &dimensions );
+#pragma region Get the width and height of the window client area
+	GetClientRect(hWnd, &dimensions);
 	unsigned int width = dimensions.right - dimensions.left;
 	unsigned int height = dimensions.bottom - dimensions.top;
-	#pragma endregion
+#pragma endregion
 
-	#pragma region Setup the swap chain descriptor
+#pragma region Setup the swap chain descriptor
 	DXGI_SWAP_CHAIN_DESC swapChainDesc;
-	ZeroMemory( &swapChainDesc, sizeof( swapChainDesc ) );
+	ZeroMemory(&swapChainDesc, sizeof(swapChainDesc));
 	swapChainDesc.BufferCount = 1;
 	swapChainDesc.BufferDesc.Width = width;
 	swapChainDesc.BufferDesc.Height = height;
@@ -252,25 +244,25 @@ bool Framework::InitialiseDirect3D(HWND hWnd)
 	swapChainDesc.Windowed = true;
 	swapChainDesc.SampleDesc.Count = 4;
 	swapChainDesc.SampleDesc.Quality = 0;
-	#pragma endregion
-	
-	#pragma region Loop through the driver types to determine which one is available to us
+#pragma endregion
+
+#pragma region Loop through the driver types to determine which one is available to us
 	D3D_DRIVER_TYPE driverType = D3D_DRIVER_TYPE_UNKNOWN;
 
-	for(unsigned int driver = 0; driver < totalDriverTypes && driverType == D3D_DRIVER_TYPE_UNKNOWN; driver++)
+	for (unsigned int driver = 0; driver < totalDriverTypes && driverType == D3D_DRIVER_TYPE_UNKNOWN; driver++)
 	{
-		if (SUCCEEDED(D3D11CreateDeviceAndSwapChain(0, 
-						 							driverTypes[driver], 
-													0,
-													0, 
-													featureLevels, 
-													totalFeatureLevels,
-													D3D11_SDK_VERSION,
-													//D3D11_CREATE_DEVICE_DEBUG,
-													&swapChainDesc, &swapChain,
-													&device, 
-													0, 
-													&deviceContext)))
+		if (SUCCEEDED(D3D11CreateDeviceAndSwapChain(0,
+			driverTypes[driver],
+			0,
+			0,
+			featureLevels,
+			totalFeatureLevels,
+			D3D11_SDK_VERSION,
+			//D3D11_CREATE_DEVICE_DEBUG,
+			&swapChainDesc, &swapChain,
+			&device,
+			0,
+			&deviceContext)))
 
 		{
 			driverType = driverTypes[driver];
@@ -281,9 +273,9 @@ bool Framework::InitialiseDirect3D(HWND hWnd)
 		// Unable to find a suitable device driver
 		return false;
 	}
-	#pragma endregion
+#pragma endregion
 
-	#pragma region Create the depth buffer 
+#pragma region Create the depth buffer 
 	// Create a texture for the depth buffer
 	D3D11_TEXTURE2D_DESC zBufferTexture;
 	ZeroMemory(&zBufferTexture, sizeof(zBufferTexture));
@@ -311,9 +303,9 @@ bool Framework::InitialiseDirect3D(HWND hWnd)
 		return false;
 	}
 	depthBuffer->Release();
-	#pragma endregion
+#pragma endregion
 
-	#pragma region Get a pointer to the back buffer and set it as our render target
+#pragma region Get a pointer to the back buffer and set it as our render target
 	ID3D11Texture2D * backBuffer;
 	if (FAILED(swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBuffer)))
 	{
@@ -325,13 +317,13 @@ bool Framework::InitialiseDirect3D(HWND hWnd)
 		return false;
 	}
 	// Ensure we release the back buffer interface
-	backBuffer->Release();	
+	backBuffer->Release();
 
 	// Now bind the render target to the output-merger stage
 	deviceContext->OMSetRenderTargets(1, &renderTarget, zBuffer);
-	#pragma endregion
+#pragma endregion
 
-	#pragma region Set the viewport
+#pragma region Set the viewport
 	// Set the viewport
 	D3D11_VIEWPORT viewport;
 	ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
@@ -342,7 +334,7 @@ bool Framework::InitialiseDirect3D(HWND hWnd)
 	viewport.MinDepth = 0;
 	viewport.MaxDepth = 1;
 	deviceContext->RSSetViewports(1, &viewport);
-	#pragma endregion
+#pragma endregion
 	return true;
 }
 
@@ -360,7 +352,7 @@ bool InitialisePipeline(void)
 	deviceContext->IASetInputLayout(layout);
 	*/
 
-    return true;
+	return true;
 }
 
 //-----------------------------------------------------------------------------
@@ -369,59 +361,59 @@ bool InitialisePipeline(void)
 //-----------------------------------------------------------------------------
 VOID Framework::Shutdown()
 {
-/*
-	// Make sure we release any Direct3D interfaces we have used
-	if (psBlob != NULL)
-	{
-		psBlob->Release();
-		psBlob = NULL;
-	}
-	if (vsBlob != NULL)
-	{
-		vsBlob->Release();
-		vsBlob = NULL;
-	}
-	if (layout != NULL)
-	{
-		layout->Release();
-		layout = NULL;
-	}
-	if (vertexBuffer != NULL)
-	{
-		vertexBuffer->Release();
-		vertexBuffer = NULL;
-	}
-	if (vertexShader != NULL)
-	{
-		vertexShader->Release();
-		vertexShader = NULL;
-	}
-	if (pixelShader != NULL)
-	{
-		pixelShader->Release();
-		pixelShader = NULL;
-	}
-	if (renderTarget != NULL)
-	{
-		renderTarget->Release();
-		renderTarget = NULL;
-	}
-	if(swapChain != NULL) 
-	{
-		swapChain->Release();
-		swapChain = NULL;
-	}
-	if (deviceContext != NULL)
-	{
-		deviceContext->Release();
-		deviceContext = NULL;
-	}
-	if (device != NULL)
-	{
-		device->Release();
-		device = NULL;
-	}
-*/
+	/*
+		// Make sure we release any Direct3D interfaces we have used
+		if (psBlob != NULL)
+		{
+			psBlob->Release();
+			psBlob = NULL;
+		}
+		if (vsBlob != NULL)
+		{
+			vsBlob->Release();
+			vsBlob = NULL;
+		}
+		if (layout != NULL)
+		{
+			layout->Release();
+			layout = NULL;
+		}
+		if (vertexBuffer != NULL)
+		{
+			vertexBuffer->Release();
+			vertexBuffer = NULL;
+		}
+		if (vertexShader != NULL)
+		{
+			vertexShader->Release();
+			vertexShader = NULL;
+		}
+		if (pixelShader != NULL)
+		{
+			pixelShader->Release();
+			pixelShader = NULL;
+		}
+		if (renderTarget != NULL)
+		{
+			renderTarget->Release();
+			renderTarget = NULL;
+		}
+		if(swapChain != NULL)
+		{
+			swapChain->Release();
+			swapChain = NULL;
+		}
+		if (deviceContext != NULL)
+		{
+			deviceContext->Release();
+			deviceContext = NULL;
+		}
+		if (device != NULL)
+		{
+			device->Release();
+			device = NULL;
+		}
+	*/
 
 	/*
 	if(_pd3dDevice)
@@ -442,19 +434,19 @@ VOID Framework::Shutdown()
 //-----------------------------------------------------------------------------
 VOID Framework::Render()
 {
-///*
-//	// Clear the screen to black
-//	float clearColor[4] = {0.0f, 0.0f, 0.0f, 1.0f};
-//	deviceContext->ClearRenderTargetView(renderTarget, clearColor);
-//
-//	// Clear the depth buffer
-//	deviceContext->ClearDepthStencilView(zBuffer, D3D11_CLEAR_DEPTH, 1.0f, 0);
-//*/
+	///*
+	//	// Clear the screen to black
+	//	float clearColor[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+	//	deviceContext->ClearRenderTargetView(renderTarget, clearColor);
+	//
+	//	// Clear the depth buffer
+	//	deviceContext->ClearDepthStencilView(zBuffer, D3D11_CLEAR_DEPTH, 1.0f, 0);
+	//*/
 	_scene->Render();
-///*
-//	// Show the back buffer in the window
-//	swapChain->Present(0, 0);
-//*/
+	///*
+	//	// Show the back buffer in the window
+	//	swapChain->Present(0, 0);
+	//*/
 }
 
 //-----------------------------------------------------------------------------
@@ -465,7 +457,7 @@ LRESULT CALLBACK Framework::windPROC(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 {
 	if (_frame != NULL)
 	{
-		return _frame->MsgProc(hWnd, msg,  wParam,  lParam );
+		return _frame->MsgProc(hWnd, msg, wParam, lParam);
 	}
 	else
 	{
@@ -477,15 +469,15 @@ LRESULT CALLBACK Framework::windPROC(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 // Name: MsgProc()
 // Desc: The window's message handler
 //-----------------------------------------------------------------------------
-LRESULT Framework::MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
+LRESULT Framework::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	float _amountOfMovement = 2.5f;
 	float _rotationAmount = 0.015f;
-	switch( msg )
+	switch (msg)
 	{
 	case WM_DESTROY:
 		_frame->Shutdown();
-		PostQuitMessage( 0 );
+		PostQuitMessage(0);
 		return 0;
 
 	case WM_PAINT:
@@ -528,26 +520,16 @@ LRESULT Framework::MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 	case WM_KEYDOWN:
 		switch (wParam)
 		{
-			// To move forward
+			// Move the camera forward
 		case 'q':
 		case 'Q':
 			_renderCamera->MoveForward(_amountOfMovement);
 			break;
 
-			// To move backward
+			// Move the camera backward
 		case 'w':
 		case 'W':
 			_renderCamera->MoveForward(_amountOfMovement * -1);
-			break;
-
-			//To move camera to the left
-		case VK_LEFT:
-//			_renderCamera->MoveRight(_amountOfMovement * -1);
-			break;
-
-			//To move camera to the right
-		case VK_RIGHT:
-//			_renderCamera->MoveRight(_amountOfMovement);
 			break;
 
 			//To move camera up
@@ -569,54 +551,63 @@ LRESULT Framework::MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 		case '1':
 			//_tank->SetCameraType(false);
 			//_renderCamera->SetCameraType(false);
-//			_renderCamera->Pitch(_rotationAmount * 1);
+			//_renderCamera->Pitch(_rotationAmount * 1);
 			break;
 
 			//Change to 3rd person camera
 		case '2':
 			//_tank->SetCameraType(true);
 			//_renderCamera->SetCameraType(true);
-//			_renderCamera->Pitch(_rotationAmount * -1);
+			//_renderCamera->Pitch(_rotationAmount * -1);
 			break;
 
 		case '3':
 			//_tank->SetCameraType(false);
 			//_renderCamera->SetCameraType(false);
-//			_renderCamera->Roll(_rotationAmount * 1);
+			//_renderCamera->Roll(_rotationAmount * 1);
 			break;
 
 			//Change to 3rd person camera
 		case '4':
 			//_tank->SetCameraType(true);
 			//_renderCamera->SetCameraType(true);
-//			_renderCamera->Roll(_rotationAmount * -1);
+			//_renderCamera->Roll(_rotationAmount * -1);
 			break;
 
 		case '5':
 			//_tank->SetCameraType(false);
 			//_renderCamera->SetCameraType(false);
-//			_renderCamera->Yaw(_rotationAmount * 1);
+			//_renderCamera->Yaw(_rotationAmount * 1);
 			break;
 
 			//Change to 3rd person camera
 		case '6':
 			//_tank->SetCameraType(true);
 			//_renderCamera->SetCameraType(true);
-//			_renderCamera->Yaw(_rotationAmount * -1);
+			//_renderCamera->Yaw(_rotationAmount * -1);
 			break;
 
+			// Rotate the camera anti clockwise
+		case VK_LEFT:
+			//_renderCamera->MoveRight(_amountOfMovement * -1);
+			_renderCamera->Yaw(_amountOfMovement * -1);
+			break;
 
+			// Rotate the camera clockwise
+		case VK_RIGHT:
+			//_renderCamera->MoveRight(_amountOfMovement);
+			_renderCamera->Yaw(_amountOfMovement);
+			break;
 
 		case VK_ESCAPE:
-				_quit = true;
-				
+			_quit = true;
 			break;
 
 		default:
 			break;
 		}
 	default:
-	return DefWindowProc(hWnd, msg, wParam, lParam );
+		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
 }
 
@@ -641,7 +632,7 @@ bool Framework::CheckDeviceCapabilities(void)
 	{
 		return true;
 	}
-*/
+	*/
 	return false;
 }
 
@@ -656,7 +647,7 @@ void Framework::OnLostDevice(void)
 	HRESULT hr = _pd3dDevice->TestCooperativeLevel();
 
 	// If the device is lost and cannot be reset yet then
-	// sleep for a bit and we'll try again on the next 
+	// sleep for a bit and we'll try again on the next
 	// message loop cycle.
 	if( hr == D3DERR_DEVICELOST )
 	{
@@ -751,9 +742,7 @@ ID3D11RenderTargetView* Framework::GetRenderTarget(void)
 	return renderTarget;
 }
 
-
-
-SceneGraph * Framework:: GetSceneGraph(void)
+SceneGraph * Framework::GetSceneGraph(void)
 {
 	return _scene;
 }
@@ -771,7 +760,6 @@ void Framework::SetCamera(Camera* renderCam)
 	// Make the camera accessible to the controller
 	_controller->SetCamera(_renderCamera);
 }
-
 
 //void Framework::SetTank(Tank* tank)
 //{
@@ -801,7 +789,6 @@ TerrainNode* Framework::GetTerrain(void)const
 //	_controller->SetCamera(_renderCamera);
 //}
 
-//void Framework::SetObjects(CameraRender* camRender, Tank* tank, SkyDome* skyDome, FrameWorkResourceManager* frameResourcesManager)
 void Framework::SetObjects(Camera* camera, Tank* tank, SkyDome* skyDome, FrameWorkResourceManager* frameResourcesManager)
 {
 	_renderCamera = camera;
@@ -809,7 +796,6 @@ void Framework::SetObjects(Camera* camera, Tank* tank, SkyDome* skyDome, FrameWo
 	_tank = tank;
 	_frameWorkResourceManager = frameResourcesManager;
 }
-
 
 ID3D11DepthStencilView* Framework::GetStencilBuffer(void)const
 {

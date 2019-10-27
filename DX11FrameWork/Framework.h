@@ -63,7 +63,6 @@ public:
 	//void GetController(void)const;
 
 	ID3D11DepthStencilView* GetStencilBuffer(void)const;
-
 	void SetObjects(Camera* camera, Tank* tank, SkyDome* skyDome, FrameWorkResourceManager* frameResourcesManager);
 
 protected:
@@ -91,4 +90,10 @@ private:
 	SkyDome* _skyDome;
 	Tank* _tank;
 	TerrainNode* _terrain;
+
+	ID3D11Device* device;
+	ID3D11DeviceContext* deviceContext;
+	IDXGISwapChain*	swapChain;
+	ID3D11RenderTargetView* renderTarget;
+	ID3D11DepthStencilView* zBuffer;
 };
