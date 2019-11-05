@@ -523,13 +523,13 @@ LRESULT Framework::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			// Move the camera forward
 		case 'q':
 		case 'Q':
-			_renderCamera->MoveForward(_amountOfMovement);
+			//_renderCamera->MoveForward(_amountOfMovement);
 			break;
 
 			// Move the camera backward
 		case 'w':
 		case 'W':
-			_renderCamera->MoveForward(_amountOfMovement * -1);
+			//_renderCamera->MoveForward(_amountOfMovement * -1);
 			break;
 
 			//To move camera up
@@ -589,14 +589,20 @@ LRESULT Framework::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			// Rotate the camera anti clockwise
 		case VK_LEFT:
-			//_renderCamera->MoveRight(_amountOfMovement * -1);
 			_renderCamera->Yaw(_amountOfMovement * -1);
 			break;
 
 			// Rotate the camera clockwise
 		case VK_RIGHT:
-			//_renderCamera->MoveRight(_amountOfMovement);
 			_renderCamera->Yaw(_amountOfMovement);
+			break;
+
+		case VK_UP:
+			_renderCamera->MoveForward(_amountOfMovement);
+			break;
+
+		case VK_DOWN:
+			_renderCamera->MoveForward(_amountOfMovement * -1);
 			break;
 
 		case VK_ESCAPE:
@@ -752,7 +758,6 @@ HWND Framework::GetHandle(void)
 	return _hWnd;
 }
 
-////void Framework::SetCamera(CameraRender* renderCam)
 void Framework::SetCamera(Camera* renderCam)
 {
 	_renderCamera = renderCam;

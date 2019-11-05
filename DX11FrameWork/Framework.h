@@ -56,11 +56,11 @@ public:
 	SceneGraph* GetSceneGraph(void);
 
 	void SetCamera(Camera* _renderCam);
-	//Camera* GetCamera(void)const;
-	//void SetTank(Tank* tank);
 	void SetTerrain(TerrainNode* terrainNode);
 	TerrainNode* GetTerrain(void)const;
 	//void GetController(void)const;
+	//Camera* GetCamera(void)const;
+	//void SetTank(Tank* tank);
 
 	ID3D11DepthStencilView* GetStencilBuffer(void)const;
 	void SetObjects(Camera* camera, Tank* tank, SkyDome* skyDome, FrameWorkResourceManager* frameResourcesManager);
@@ -82,8 +82,6 @@ private:
 	MSG msg;
 	HWND _hWnd;
 	SceneGraph* _scene;
-
-	//void SetupMatrices(void);
 
 	GamePadController* _controller;
 	Camera* _renderCamera;
