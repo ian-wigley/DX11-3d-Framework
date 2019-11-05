@@ -605,6 +605,11 @@ LRESULT Framework::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			_renderCamera->MoveForward(_amountOfMovement * -1);
 			break;
 
+		case VK_CONTROL:
+		case VK_SHIFT:
+			_tank->FireBullet();
+			break;
+
 		case VK_ESCAPE:
 			_quit = true;
 			break;
