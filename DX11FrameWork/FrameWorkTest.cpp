@@ -75,7 +75,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, LPWSTR, int)
 	//	_camRender = new CameraRender(_device, _tNode, _tank);
 	//	_sGraph->AddNode(_cameraNode = new CameraNode(L"Camera"),L"Parent");
 
-	_camRender = new Camera(_deviceContext, _tNode, _tank);
+	_sGraph->AddNode(_camRender = new Camera(_deviceContext, _tNode, _tank), L"Parent");
+
+//	_camRender = new Camera(_deviceContext, _tNode, _tank);
 	_sGraph->SetCamera(_camRender);
 	_frame->SetCamera(_camRender);
 

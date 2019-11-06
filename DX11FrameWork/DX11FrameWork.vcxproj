@@ -154,7 +154,6 @@
     <ClCompile Include="BulletNode.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraNode.cpp" />
-    <ClCompile Include="CameraRender.cpp" />
     <ClCompile Include="Castle.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
@@ -186,7 +185,6 @@
     <ClInclude Include="BulletNode.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraNode.h" />
-    <ClInclude Include="CameraRender.h" />
     <ClInclude Include="Castle.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="DirectionalLight.h" />

@@ -2,7 +2,6 @@
 #include "SceneNode.h"
 #include "Framework.h"
 #include "FrameWorkResourceManager.h"
-#include "CameraRender.h"
 #include "DDSTextureLoader.h"
 
 __declspec(align(16)) class SkyDome :
